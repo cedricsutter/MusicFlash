@@ -11,4 +11,15 @@ In /Prototype you will find a Wire Frame. Just open the index.html. :)
 
 ## Architecture of the Application
 
+**Frontend**
 
+React.js, https://reactjs.org/
+Material UI, https://mui.com/ 
+Typescript, https://www.typescriptlang.org/
+
+**Backend**
+
+Firebase
+
+Authentication: https://firebase.google.com/docs/auth
+Database: https://firebase.google.com/docs/database
