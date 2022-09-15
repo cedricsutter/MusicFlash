@@ -13,13 +13,13 @@ In /Prototype you will find a Wire Frame. Just open the index.html. :)
 
 **Frontend**
 
-React.js, https://reactjs.org/
-Material UI, https://mui.com/ 
-Typescript, https://www.typescriptlang.org/
+React.js, https://reactjs.org/ <br/>
+Material UI, https://mui.com/ <br/>
+Typescript, https://www.typescriptlang.org/ <br/>
 
 **Backend**
 
 Firebase
 
-Authentication: https://firebase.google.com/docs/auth
-Database: https://firebase.google.com/docs/database
+Authentication: https://firebase.google.com/docs/auth <br/>
+Database: https://firebase.google.com/docs/database <br/>
