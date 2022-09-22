@@ -1,13 +1,15 @@
 import React from 'react';
+import logo from './MusicFlash.png'
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          Ich bin dä Joshi und ich bin en riese Lauch, weil ich afoch nix cha.
-        </p>
+          <img src={logo} alt="MusicFlash"/>
+          <p>
+              Coming soon!
+          </p>
       </header>
     </div>
   );
