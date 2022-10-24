@@ -9,9 +9,9 @@ import HomePage from "../pages/home";
 const routes: IRoute[] = [
     {
         path: '/',
-        component: HomePage,
-        name: 'Home Page',
-        protected: true
+        component: LoginPage,
+        name: 'Login Page',
+        protected: false
     },
     {
         path: '/register',
