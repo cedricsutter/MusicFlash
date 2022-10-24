@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, FormGroup, Input } from 'reactstrap';
-import AuthContainer from '../../components/AuthContainer';
 import ErrorText from '../../components/ErrorText';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
@@ -23,7 +21,7 @@ const LoginPage: React.FC<PageProps> = ({ name }) => {
         auth.signInWithEmailAndPassword(email, password)
             .then(result => {
                 logging.info(result);
-                navigate('/');
+                navigate('/logout');
             })
             .catch(error => {
                 logging.error(error);
@@ -33,9 +31,9 @@ const LoginPage: React.FC<PageProps> = ({ name }) => {
     }
 
     return (
-        <AuthContainer header="Login">
-            <FormGroup>
-                <Input
+        <div>
+            <form>
+                <input
                     type="email"
                     name="email"
                     id="email"
@@ -43,9 +41,9 @@ const LoginPage: React.FC<PageProps> = ({ name }) => {
                     onChange={event => setEmail(event.target.value)}
                     value={email}
                 />
-            </FormGroup>
-            <FormGroup>
-                <Input
+            </form>
+            <form>
+                <input
                     autoComplete="new-password"
                     type="password"
                     name="password"
@@ -54,22 +52,21 @@ const LoginPage: React.FC<PageProps> = ({ name }) => {
                     onChange={event => setPassword(event.target.value)}
                     value={password}
                 />
-            </FormGroup>
-            <Button
+            </form>
+            <button
                 disabled={authenticating}
                 color="success"
-                block
                 onClick={() => signInWithEmailAndPassword()}
             >
                 Login
-            </Button>
+            </button>
             <small>
-                <p className='m-1 text-center'>Don't have an account? <Link to="/register">Register here.</Link></p>
-                <p className='m-1 text-center'><Link to="/forget">Forget your password?</Link></p>
+                <p>Don't have an account? <Link to="/register">Register here.</Link></p>
+                <p><Link to="/forget">Forget your password?</Link></p>
+                <p><Link to="/blog">Visit without Login.</Link></p>
             </small>
             <ErrorText error={error} />
-            <hr className="bg-info m-3" />
-        </AuthContainer>
+        </div>
     );
 }
 

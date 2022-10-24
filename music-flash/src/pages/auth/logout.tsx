@@ -1,7 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'reactstrap';
-import AuthContainer from '../../components/AuthContainer';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
 import PageProps from '../../interfaces/page';
@@ -16,13 +14,24 @@ const LogoutPage: React.FC<PageProps> = ({ name }) => {
     }
 
     return (
-        <AuthContainer header="Logout">
-            <p className='text-center'>Are you sure you want to logout?</p>
-            <div className='text-center'>
-                <Button color="danger" className="mr-2" onClick={() => navigate(-1)}>Cancel</Button>
-                <Button color="info" className="mr-2" onClick={() => Logout()}>Logout</Button>
-            </div>
-        </AuthContainer>
+        <div>
+            {auth.currentUser ? (
+              <div>
+                <p>Are you sure you want to logout?</p>
+                <div>
+                    <button onClick={() => navigate(-1)}>Cancel</button>
+                    <button onClick={() => Logout()}>Logout</button>
+                </div>
+              </div>
+            ) : (
+                <div>
+                    <p>You are allready logged out</p>
+                    <div>
+                        <button onClick={() => navigate(-1)}>Back Home</button>
+                    </div>
+                </div>
+                )}
+        </div>
     );
 }
 

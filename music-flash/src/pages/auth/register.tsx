@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, FormGroup, Input } from 'reactstrap';
-import AuthContainer from '../../components/AuthContainer';
 import ErrorText from '../../components/ErrorText';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
@@ -53,9 +51,9 @@ const RegisterPage: React.FC<PageProps> = ({ name }) => {
     }
 
     return (
-        <AuthContainer header="Register">
-            <FormGroup>
-                <Input
+        <div>
+            <form>
+                <input
                     type="email"
                     name="email"
                     id="email"
@@ -63,9 +61,9 @@ const RegisterPage: React.FC<PageProps> = ({ name }) => {
                     onChange={event => setEmail(event.target.value)}
                     value={email}
                 />
-            </FormGroup>
-            <FormGroup>
-                <Input
+            </form>
+            <form>
+                <input
                     autoComplete="new-password"
                     type="password"
                     name="password"
@@ -74,9 +72,9 @@ const RegisterPage: React.FC<PageProps> = ({ name }) => {
                     onChange={event => setPassword(event.target.value)}
                     value={password}
                 />
-            </FormGroup>
-            <FormGroup>
-                <Input
+            </form>
+            <form>
+                <input
                     autoComplete="new-password"
                     type="password"
                     name="confirm"
@@ -85,20 +83,19 @@ const RegisterPage: React.FC<PageProps> = ({ name }) => {
                     onChange={event => setConfirm(event.target.value)}
                     value={confirm}
                 />
-            </FormGroup>
-            <Button
+            </form>
+            <button
                 disabled={registering}
                 color="success"
-                block
                 onClick={() => signUpWithEmailAndPassword()}
             >
                 Sign Up
-            </Button>
+            </button>
             <small>
-                <p className='m-1 text-center'>Already have an account? <Link to="/login">Login.</Link></p>
+                <p>Already have an account? <Link to="/login">Login.</Link></p>
             </small>
             <ErrorText error={error} />
-        </AuthContainer>
+        </div>
     );
 }
 

@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route , Routes } from 'react-router-dom';
-import HomePage from './pages/home';
-import LoginPage from './pages/auth/login';
 import { Spinner } from 'reactstrap';
-import AuthRoute from './components/AuthRoute';
 import { auth } from './config/firebase';
 import logging from './config/logging';
 import routes from './config/routes';

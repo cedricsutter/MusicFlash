@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { Button, FormGroup, Input } from 'reactstrap';
-import AuthContainer from '../../components/AuthContainer';
 import ErrorText from '../../components/ErrorText';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
@@ -31,14 +29,14 @@ const ForgotPasswordPage: React.FC<PageProps> = ({ name }) => {
     }
 
     return (
-        <AuthContainer header="Send Password Reset">
+        <div>
             {sent ?
                 <p>A link has been sent to your email with instructions.</p>
                 :
                 <>
                     <p>Please enter your email.</p>
-                    <FormGroup>
-                        <Input
+                    <form>
+                        <input
                             type="email"
                             name="email"
                             id="email"
@@ -46,19 +44,18 @@ const ForgotPasswordPage: React.FC<PageProps> = ({ name }) => {
                             onChange={event => setEmail(event.target.value)}
                             value={email}
                         />
-                    </FormGroup>
-                    <Button
+                    </form>
+                    <button
                         disabled={sending}
                         color="success"
-                        block
                         onClick={() => resetPasswordRequest()}
                     >
                         Send Reset Link
-                    </Button>
+                    </button>
                     <ErrorText error={error} />
                 </>
             }
-        </AuthContainer>
+        </div>
     );
 }
 
