@@ -11,7 +11,7 @@ import AddBlog from "../pages/blog/createblog";
 const routes: IRoute[] = [
     {
         path: '/',
-        component: LoginPage,
+        component: BlogEntries,
         name: 'Login Page',
         protected: false
     },

@@ -27,7 +27,7 @@ const LogoutPage: React.FC<PageProps> = ({ name }) => {
                 <div>
                     <p>You are allready logged out</p>
                     <div>
-                        <button onClick={() => navigate(-1)}>Back Home</button>
+                        <button onClick={() => navigate(-1)}>Back</button>
                     </div>
                 </div>
                 )}

@@ -32,40 +32,48 @@ const LoginPage: React.FC<PageProps> = ({ name }) => {
 
     return (
         <div>
-            <form>
-                <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="Email Address"
-                    onChange={event => setEmail(event.target.value)}
-                    value={email}
-                />
-            </form>
-            <form>
-                <input
-                    autoComplete="new-password"
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="Enter Password"
-                    onChange={event => setPassword(event.target.value)}
-                    value={password}
-                />
-            </form>
-            <button
-                disabled={authenticating}
-                color="success"
-                onClick={() => signInWithEmailAndPassword()}
-            >
-                Login
-            </button>
-            <small>
-                <p>Don't have an account? <Link to="/register">Register here.</Link></p>
-                <p><Link to="/forget">Forget your password?</Link></p>
-                <p><Link to="/blog">Visit without Login.</Link></p>
-            </small>
-            <ErrorText error={error} />
+            { auth.currentUser? (
+                <div>
+                    <p><Link to="/">You are allready logged in</Link></p>
+                </div>
+            ) : (
+                <div>
+                    <form>
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Email Address"
+                            onChange={event => setEmail(event.target.value)}
+                            value={email}
+                        />
+                    </form>
+                    <form>
+                        <input
+                            autoComplete="new-password"
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Enter Password"
+                            onChange={event => setPassword(event.target.value)}
+                            value={password}
+                        />
+                    </form>
+                    <button
+                        disabled={authenticating}
+                        color="success"
+                        onClick={() => signInWithEmailAndPassword()}
+                    >
+                        Login
+                    </button>
+                    <small>
+                        <p>Don't have an account? <Link to="/register">Register here.</Link></p>
+                        <p><Link to="/forget">Forget your password?</Link></p>
+                        <p><Link to="/blog">Visit without Login.</Link></p>
+                    </small>
+                    <ErrorText error={error} />
+                </div>
+                )}
         </div>
     );
 }
