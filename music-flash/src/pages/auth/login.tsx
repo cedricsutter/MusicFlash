@@ -3,9 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import ErrorText from '../../components/ErrorText';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
-import PageProps from '../../interfaces/page';
 
-const LoginPage: React.FC<PageProps> = ({ name }) => {
+const LoginPage: React.FC = () => {
     const [authenticating, setAuthenticating] = useState<boolean>(false);
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -21,7 +20,7 @@ const LoginPage: React.FC<PageProps> = ({ name }) => {
         auth.signInWithEmailAndPassword(email, password)
             .then(result => {
                 logging.info(result);
-                navigate('/logout');
+                navigate('/blog');
             })
             .catch(error => {
                 logging.error(error);

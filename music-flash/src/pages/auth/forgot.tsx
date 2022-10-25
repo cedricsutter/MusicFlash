@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import ErrorText from '../../components/ErrorText';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
-import PageProps from '../../interfaces/page';
 
-const ForgotPasswordPage: React.FC<PageProps> = ({ name }) => {
+const ForgotPasswordPage: React.FC = () => {
     const [sending, setSending] = useState<boolean>(false);
     const [sent, setSent] = useState<boolean>(false);
     const [email, setEmail] = useState<string>('');

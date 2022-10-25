@@ -10,7 +10,7 @@ const ErrorText: React.FunctionComponent<IErrorTextProps> = props => {
     if (error === '') return null;
 
     return (
-        <small className="text-danger">
+        <small>
             {error}
         </small>
     );

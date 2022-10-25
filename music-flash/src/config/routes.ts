@@ -4,58 +4,44 @@ import ForgotPasswordPage from "../pages/auth/forgot";
 import LoginPage from "../pages/auth/login";
 import LogoutPage from "../pages/auth/logout";
 import RegisterPage from "../pages/auth/register";
-import AddTutorial from "../pages/blog/createblog";
-import BlogEntries from "../pages/blog/blog";
 import AddBlog from "../pages/blog/createblog";
+import Blog from "../pages/blog/blog";
 
 const routes: IRoute[] = [
     {
         path: '/',
-        component: BlogEntries,
-        name: 'Login Page',
-        protected: false
+        component: Blog,
+        name: 'Blog Page'
     },
     {
         path: '/register',
         component: RegisterPage,
-        name: 'Register Page',
-        protected: false
+        name: 'Register Page'
     },
     {
         path: '/login',
         component: LoginPage,
-        name: 'Login Page',
-        protected: false
+        name: 'Login Page'
     },
     {
         path: '/change',
         component: ChangePasswordPage,
-        name: 'Change Password Page',
-        protected: true
+        name: 'Change Password Page'
     },
     {
         path: '/logout',
         component: LogoutPage,
-        name: 'Logout Page',
-        protected: true
+        name: 'Logout Page'
     },
     {
         path: '/forget',
         component: ForgotPasswordPage,
-        name: 'Forgot Password Page',
-        protected: false
+        name: 'Forgot Password Page'
     },
     {
         path: '/add',
         component: AddBlog,
-        name: 'Add blog Post',
-        protected: true
-    },
-    {
-        path: '/blog',
-        component: BlogEntries,
-        name: 'Show blog Entries',
-        protected: false
+        name: 'Add blog Post'
     }
 ];
 

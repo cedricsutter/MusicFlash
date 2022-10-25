@@ -3,12 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import ErrorText from '../../components/ErrorText';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
-import PageProps from '../../interfaces/page';
 
-const ChangePasswordPage: React.FC<PageProps> = ({ name }) => {
+const ChangePasswordPage: React.FC = () => {
     const [changing, setChanging] = useState<boolean>(false);
     const [password, setPassword] = useState<string>('');
-    const [old, setOld] = useState<string>('');
     const [confirm, setConfirm] = useState<string>('');
     const [error, setError] = useState<string>('');
 

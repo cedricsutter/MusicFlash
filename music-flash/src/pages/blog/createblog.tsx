@@ -2,7 +2,9 @@ import React, { Component, ChangeEvent } from "react";
 import BlogDataService from "../../services/blogDataService";
 import IBlogData from "../../interfaces/blogentry";
 import { auth } from "../../config/firebase";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
+
+//Todo: Class in Function umschreiben
 
 type Props = {};
 
@@ -36,8 +38,6 @@ export default class AddBlog extends Component<Props, State> {
             title: e.target.value,
         });
     }
-
-
 
     onChangeText(e: ChangeEvent<HTMLInputElement>) {
         this.setState({
@@ -133,7 +133,7 @@ export default class AddBlog extends Component<Props, State> {
                     ) : (
                     <div>
                         <h4>Please Log in to create a blog entry</h4>
-                        <Link to="/">Log in</Link>
+                        <Link to="/login">Log in</Link>
                     </div>
                     )}
             </div>

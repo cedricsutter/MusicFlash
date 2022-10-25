@@ -3,9 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import ErrorText from '../../components/ErrorText';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
-import PageProps from '../../interfaces/page';
 
-const RegisterPage: React.FC<PageProps> = ({ name }) => {
+const RegisterPage: React.FC = () => {
     const [registering, setRegistering] = useState<boolean>(false);
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');

@@ -5,9 +5,7 @@ import { auth } from './config/firebase';
 import logging from './config/logging';
 import routes from './config/routes';
 
-export interface IApplicationProps { }
-
-const Application: React.FC<IApplicationProps> = props => {
+const Application: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -29,16 +27,23 @@ const Application: React.FC<IApplicationProps> = props => {
         return <Spinner color="info" />
 
     return (
-        <BrowserRouter>
-            <Routes>
-                {routes.map((route, index) =>
-                    <Route
-                        key={index}
-                        path={route.path}
-                        element={<route.component />}
-                    />)}
-            </Routes>
-        </BrowserRouter>
+        <React.StrictMode>
+            <div>
+                <div>
+                    <p>Navbar</p>
+                </div>
+                    <BrowserRouter>
+                        <Routes>
+                            {routes.map((route, index) =>
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={<route.component />}
+                                />)}
+                        </Routes>
+                    </BrowserRouter>
+            </div>
+        </React.StrictMode>
     );
 }
 

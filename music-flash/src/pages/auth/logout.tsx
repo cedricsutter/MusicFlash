@@ -2,9 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
-import PageProps from '../../interfaces/page';
 
-const LogoutPage: React.FC<PageProps> = ({ name }) => {
+const LogoutPage: React.FC = () => {
     const navigate = useNavigate();
 
     const Logout = () => {
