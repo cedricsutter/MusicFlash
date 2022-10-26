@@ -45,9 +45,8 @@ const Blog: React.FC = () =>  {
                             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                             loading="lazy">
                     </iframe>
-                    {auth.currentUser? (
-                    <button>Delete</button> ):(<div></div>)}
-                    <button>Like</button>
+                    {auth.currentUser? (<button>Delete</button> ):(<div></div>)}
+                    {auth.currentUser? (<button>Like</button> ):(<div></div>)}
                     <div>Likes: {blogs.likedBy}</div>
                 </div>
             ))}

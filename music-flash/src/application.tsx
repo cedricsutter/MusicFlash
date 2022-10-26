@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route , Routes } from 'react-router-dom';
-import { Spinner } from 'reactstrap';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import { auth } from './config/firebase';
 import logging from './config/logging';
 import routes from './config/routes';
+import MusicflashNavbar from "./components/navbar";
+
 
 const Application: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -24,23 +27,25 @@ const Application: React.FC = () => {
     }, []);
 
     if (loading)
-        return <Spinner color="info" />
+        return  <Box sx={{justifyContent: 'center'}} >
+                    <CircularProgress />
+                </Box>
 
     return (
             <div>
-                <div>
-                    <h1>MusicFlash Navbar</h1>
-                </div>
-                    <BrowserRouter>
-                        <Routes>
-                            {routes.map((route, index) =>
-                                <Route
-                                    key={index}
-                                    path={route.path}
-                                    element={<route.component />}
-                                />)}
-                        </Routes>
-                    </BrowserRouter>
+                <MusicflashNavbar />
+                    <div>
+                            <BrowserRouter>
+                                <Routes>
+                                    {routes.map((route, index) =>
+                                        <Route
+                                            key={index}
+                                            path={route.path}
+                                            element={<route.component />}
+                                        />)}
+                                </Routes>
+                            </BrowserRouter>
+                    </div>
             </div>
     );
 }

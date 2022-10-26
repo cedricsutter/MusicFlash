@@ -20,7 +20,7 @@ const LoginPage: React.FC = () => {
         auth.signInWithEmailAndPassword(email, password)
             .then(result => {
                 logging.info(result);
-                navigate('/blog');
+                navigate('/');
             })
             .catch(error => {
                 logging.error(error);
