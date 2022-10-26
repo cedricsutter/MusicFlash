@@ -1,5 +1,5 @@
 export default interface IBlogData {
-    id?: string | null,
+    id?: string | undefined,
     title: string,
     text: string,
     likedBy: number | null,

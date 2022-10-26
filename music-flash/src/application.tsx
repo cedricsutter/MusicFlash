@@ -27,10 +27,9 @@ const Application: React.FC = () => {
         return <Spinner color="info" />
 
     return (
-        <React.StrictMode>
             <div>
                 <div>
-                    <p>Navbar</p>
+                    <h1>MusicFlash Navbar</h1>
                 </div>
                     <BrowserRouter>
                         <Routes>
@@ -43,7 +42,6 @@ const Application: React.FC = () => {
                         </Routes>
                     </BrowserRouter>
             </div>
-        </React.StrictMode>
     );
 }
 

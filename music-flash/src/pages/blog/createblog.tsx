@@ -87,6 +87,7 @@ export default class AddBlog extends Component<Props, State> {
                             </div>
                         ) : (
                             <div>
+                                <h3>Create a new blog Entry!</h3>
                                 <form>
                                     <label>Title</label>
                                     <input

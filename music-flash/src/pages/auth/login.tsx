@@ -68,7 +68,7 @@ const LoginPage: React.FC = () => {
                     <small>
                         <p>Don't have an account? <Link to="/register">Register here.</Link></p>
                         <p><Link to="/forget">Forget your password?</Link></p>
-                        <p><Link to="/blog">Visit without Login.</Link></p>
+                        <p><Link to="/">Visit without Login.</Link></p>
                     </small>
                     <ErrorText error={error} />
                 </div>

@@ -9,7 +9,6 @@ function tester(value: any) {
     blogs.push(value);
 }
 
-
 class BlogDataService {
     getAll() {
         return db.get();
