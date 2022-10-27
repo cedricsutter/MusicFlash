@@ -4,7 +4,7 @@ import ForgotPasswordPage from "../pages/auth/forgot";
 import LoginPage from "../pages/auth/login";
 import LogoutPage from "../pages/auth/logout";
 import RegisterPage from "../pages/auth/register";
-import AddBlog from "../pages/blog/createblog";
+import Create from "../pages/blog/create"
 import Blog from "../pages/blog/blog";
 
 const routes: IRoute[] = [
@@ -40,7 +40,7 @@ const routes: IRoute[] = [
     },
     {
         path: '/add',
-        component: AddBlog,
+        component: Create,
         name: 'Add blog Post'
     }
 ];

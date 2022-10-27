@@ -3,12 +3,6 @@ import blogEntry from "../interfaces/blogentry";
 
 const db = blog.collection("BlogPosts");
 
-export const blogs: Array<string> = [];
-
-function tester(value: any) {
-    blogs.push(value);
-}
-
 class BlogDataService {
     getAll() {
         return db.get();

@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import { auth } from './config/firebase';
 import logging from './config/logging';
 import routes from './config/routes';
-import MusicflashNavbar from "./components/navbar";
+import Navbar from "./components/navbar";
 
 
 const Application: React.FC = () => {
@@ -33,7 +33,9 @@ const Application: React.FC = () => {
 
     return (
             <div>
-                <MusicflashNavbar />
+                <div>
+                    <Navbar />
+                </div>
                     <div>
                             <BrowserRouter>
                                 <Routes>
