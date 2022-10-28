@@ -34,14 +34,14 @@ const Create: React.FC = () =>  {
         data.creatorMail = auth.currentUser?.email;
         data.date = Date.now();
         console.log(data);
-        //BlogDataService.create(data)
-           // .then(() => {
-            //    console.log("Created new item successfully!");
-             //   setSubmit(true);
-            //})
-          //  .catch((e: Error) => {
-          //      console.log(e);
-          //  });
+        BlogDataService.create(data)
+           .then(() => {
+               console.log("Created new item successfully!");
+               setSubmit(true);
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
     }
 
     return (
@@ -111,14 +111,14 @@ const Create: React.FC = () =>  {
                                         type="link"
                                         placeholder = "Add a Spotify Link!"
                                         onChange={handleChange}
-                                        pattern = "^https:\\/\\/open.spotify.com\\/embed\\/track\\/.+\\utm_source=generator$"
+                                        pattern = "^https:\/\/open.spotify.com\/embed\/track\/.+"
                                         required={true}
                                         id="outlined-multiline-flexible"
                                     />
-                                        <Typography variant="body2" color="text.secondary">
-                                            The Link has to be copied from Spotify: he has to be in the Format:
-                                            https://open.spotify.com/embed/track/ + TrackId + utm_source=generator
-                                        </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                       The Link has to be copied from Spotify: he has to be in the Format:
+                                       https://open.spotify.com/embed/track/ + TrackId + utm_source=generator
+                                    </Typography>
                                     <div>
                                     <Button variant="contained" type={"submit"} color="success">Add</Button>
                                     <Button variant="contained" onClick={() => navigate("/")} color="error">Cancel</Button>

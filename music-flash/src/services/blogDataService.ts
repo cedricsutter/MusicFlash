@@ -12,12 +12,22 @@ class BlogDataService {
         return db.add(blogPost);
     }
 
-    updateText(text: string, value: any) {
-        return db.doc(text).update(value);
+    updateLike(docid: string, value: any) {
+        return db.doc(docid).update({likedBy: value}).then(() => {
+            console.log("Document successfully updated!");
+        })
+            .catch((error) => {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
     }
 
     delete(id: string) {
-        return db.doc(id).delete();
+        return db.doc(id).delete().then(() => {
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });;
     }
 }
 

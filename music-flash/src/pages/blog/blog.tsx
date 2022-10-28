@@ -17,6 +17,25 @@ const Blog: React.FC = () =>  {
         getBlogs();
     }, []);
 
+    function deleteBlog(blogid : number | any) {
+        setBlogs(blogs.filter(a => a.id !== blogid));
+        blogDataService.delete(blogid);
+    }
+
+    function handleLike(blogid : number | any) {
+        setBlogs(blogs.map(blog => {
+            if (blog.id === blogid) {
+                blogDataService.updateLike(blogid, blog.likedBy + 1);
+                return {
+                    ...blog,
+                    likedBy: blog.likedBy + 1
+                };
+            } else {
+                return blog;
+            }
+        }))
+    }
+
     const getBlogs = () => {
         blogDataService.getAll().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -40,10 +59,10 @@ const Blog: React.FC = () =>  {
 
     return (
         <div>
-            {blogs.map((blogs, index) => (
-                <Card data-index={index} key={blogs.id}>
+            {blogs.map((blog) => (
+                <Card data-index={blog.id} key={blog.id}>
                 <iframe
-                src={blogs.link}
+                src={blog.link}
                 width="100%"
                 height="152"
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -51,18 +70,19 @@ const Blog: React.FC = () =>  {
                 </iframe>
                 <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    {blogs.title}
+                    {blog.title}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    {blogs.text}
+                    {blog.text}
+                </Typography>
+                <Typography variant="body2">
+                    Created by: {blog.creatorMail}
                 </Typography>
                 </CardContent>
                 <CardActions>
-                <Button size="small">Like</Button>
-                    <FavoriteIcon>{blogs.likedBy}</FavoriteIcon>
-                    <div>{blogs.likedBy}</div>
-                <Button size="small">Delete</Button>
-                    <DeleteForeverRoundedIcon/>
+                    <FavoriteIcon onClick={() => {handleLike(blog.id);}}></FavoriteIcon>
+                    <div>{blog.likedBy}</div>
+                    <DeleteForeverRoundedIcon onClick={() => {deleteBlog(blog.id);}}></DeleteForeverRoundedIcon>
                 </CardActions>
                 </Card>
             ))}

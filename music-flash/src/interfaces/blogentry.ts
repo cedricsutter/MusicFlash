@@ -1,8 +1,8 @@
 export default interface IBlogData {
-    id?: string | undefined,
+    id?: string,
     title: string,
     text: string,
-    likedBy: number | null,
+    likedBy: number,
     liked: Array<string | number>,
     published?: boolean,
     date: any,
