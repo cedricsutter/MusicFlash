@@ -25,28 +25,25 @@ const Application: React.FC = () => {
             setLoading(false);
         })
     }, []);
-
     if (loading)
         return  <Box sx={{justifyContent: 'center'}} >
                     <CircularProgress />
                 </Box>
-
     return (
             <div>
                 <div>
                     <Navbar />
                 </div>
                     <div>
-                            <BrowserRouter>
-                                <Routes>
-                                    {routes.map((route, index) =>
-                                        <Route
-                                            key={index}
-                                            path={route.path}
-                                            element={<route.component />}
-                                        />)}
-                                </Routes>
-                            </BrowserRouter>
+
+                            <Routes>
+                                {routes.map((route, index) =>
+                                    <Route
+                                        key={index}
+                                        path={route.path}
+                                        element={<route.component />}
+                                    />)}
+                            </Routes>
                     </div>
             </div>
     );

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ErrorText from '../../components/ErrorText';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
+import Box from '@mui/material/Box';
 
 const RegisterPage: React.FC = () => {
     const [registering, setRegistering] = useState<boolean>(false);
@@ -51,6 +52,14 @@ const RegisterPage: React.FC = () => {
 
     return (
         <div>
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                p: 1,
+                m: 1,
+                bgcolor: 'background.paper',
+                borderRadius: 1,
+            }} >
             <form>
                 <input
                     type="email"
@@ -94,6 +103,7 @@ const RegisterPage: React.FC = () => {
                 <p>Already have an account? <Link to="/login">Login.</Link></p>
             </small>
             <ErrorText error={error} />
+            </Box>
         </div>
     );
 }

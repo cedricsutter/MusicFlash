@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import ErrorText from '../../components/ErrorText';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
+import Box from '@mui/material/Box';
 
 const ChangePasswordPage: React.FC = () => {
     const [changing, setChanging] = useState<boolean>(false);
@@ -40,6 +41,14 @@ const ChangePasswordPage: React.FC = () => {
 
     return (
         <div>
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                p: 1,
+                m: 1,
+                bgcolor: 'background.paper',
+                borderRadius: 1,
+            }} >
             <form>
                 <input
                     autoComplete="new-password"
@@ -70,6 +79,7 @@ const ChangePasswordPage: React.FC = () => {
                 Change Password
             </button>
             <ErrorText error={error} />
+            </Box>
         </div>
     );
 }

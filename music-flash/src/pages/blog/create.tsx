@@ -5,7 +5,7 @@ import { auth } from "../../config/firebase";
 import {Link , useNavigate} from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
-import Box, { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
 import Typography from "@mui/material/Typography";
 
 
@@ -111,7 +111,7 @@ const Create: React.FC = () =>  {
                                         type="link"
                                         placeholder = "Add a Spotify Link!"
                                         onChange={handleChange}
-                                        pattern = "^https:\/\/open.spotify.com\/embed\/track\/.+"
+                                        pattern = "^https:\/\/open.spotify.com\/embed\/.+"
                                         required={true}
                                         id="outlined-multiline-flexible"
                                     />

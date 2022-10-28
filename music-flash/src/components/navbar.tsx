@@ -1,95 +1,124 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import MenuItem from '@mui/material/MenuItem';
-import {auth} from "../config/firebase";
-import logging from "../config/logging";
-import {useEffect} from "react";
+import Button from '@mui/material/Button';
+import { useNavigate } from "react-router-dom";
 
-const Navbar: React.FC = () => {
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    const [loggedIn, setLoggedIn] = React.useState<any>(auth.currentUser);
-    const [logSt, setLogST] = React.useState<string>("");
 
-    useEffect(() => {
-        loggedIn? setLogST("logout") : setLogST("login")
-    }, []);
+const drawerWidth = 240;
 
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget);
+const Navbar: React.FC = () =>  {
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const navigate = useNavigate();
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
     };
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
+    const drawer = (
+        <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+            <Typography variant="h6" sx={{ my: 2 }}>
+                Music Flash
+            </Typography>
+            <Divider />
+            <List>
+                <ListItem key="Home" disablePadding>
+                    <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/")}>
+                        <ListItemText primary="Home" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem key="Login" disablePadding>
+                    <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/login")}>
+                        <ListItemText primary="Login" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem key="Logout" disablePadding>
+                    <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/logout")}>
+                        <ListItemText primary="Logout" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem key="Add" disablePadding>
+                    <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/add")}>
+                        <ListItemText primary="Add" />
+                    </ListItemButton>
+                </ListItem>
+            </List>
+        </Box>
+    );
 
-    const log = () => {
-        if (loggedIn) {
-            auth.signOut()
-                .then(() => console.log("logedOut"))
-                .catch(error => logging.error(error));
-            setLoggedIn(auth.currentUser);
-            setLogST("login")
-        } else {
-            console.log("move to log in");
-            setLogST("logout")
-        }
-
-    };
-
-    const login = () => {
-        console.log("please log in");
-        setLoggedIn(auth.currentUser);
-    };
 
     return (
-        <AppBar position="static">
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
+        <Box sx={{ display: 'flex' }}>
+            <AppBar component="nav">
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        sx={{ mr: 2, display: { sm: 'none' } }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
                     <Typography
                         variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
+                        component="div"
+                        sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                     >
-                        MusicFlash
+                        Music Flash
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {loggedIn? (
-                            <div>
-                                <MenuItem>
-                                <form action="/add">
-                                    <input type="submit" value="Add" />
-                                </form>
-                                </MenuItem>
-                                <MenuItem>
-                                <form action="/logout">
-                                    <input type="submit" value="Logout" />
-                                </form>
-                                </MenuItem>
-                            </div>
-                            ):(
-                            <form action="/login">
-                                <input type="submit" value="Login" />
-                            </form>
-
-                        )}
+                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                            <Button onClick={() => navigate("/")} key="Home" sx={{ color: '#fff' }}>
+                                Home
+                            </Button>
+                    </Box>
+                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                            <Button onClick={() => navigate("/login")} key="Login" sx={{ color: '#fff' }}>
+                                Login
+                            </Button>
+                    </Box>
+                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                            <Button onClick={() => navigate("/logout")} key="Logout" sx={{ color: '#fff' }}>
+                                Logout
+                            </Button>
+                    </Box>
+                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                            <Button onClick={() => navigate("/add")} key="Add" sx={{ color: '#fff' }}>
+                                Add
+                            </Button>
                     </Box>
                 </Toolbar>
-            </Container>
-        </AppBar>
+            </AppBar>
+            <Box component="nav">
+                <Drawer
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                        display: { xs: 'block', sm: 'none' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
+                >
+                    {drawer}
+                </Drawer>
+            </Box>
+            <Box component="main" sx={{ p: 4 }}>
+            </Box>
+        </Box>
     );
 }
+
 export default Navbar;

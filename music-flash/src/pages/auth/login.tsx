@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ErrorText from '../../components/ErrorText';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
+import Box from '@mui/material/Box';
 
 const LoginPage: React.FC = () => {
     const [authenticating, setAuthenticating] = useState<boolean>(false);
@@ -31,6 +32,14 @@ const LoginPage: React.FC = () => {
 
     return (
         <div>
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                p: 1,
+                m: 1,
+                bgcolor: 'background.paper',
+                borderRadius: 1,
+            }} >
             { auth.currentUser? (
                 <div>
                     <p><Link to="/">You are allready logged in</Link></p>
@@ -73,6 +82,7 @@ const LoginPage: React.FC = () => {
                     <ErrorText error={error} />
                 </div>
                 )}
+            </Box>
         </div>
     );
 }
