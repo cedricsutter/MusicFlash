@@ -1,12 +1,16 @@
 # MusicFlash
 **Projekt 2 CAS-FEE2022**
 
+## What is MusicFlash?
+
+MusicFLash is an Music Blog where you can read about Music. It's possible for everyone to read the articles, like them and hear some previews of the Music. To create an Article you have to login. If you post is inappropriate he will get deletet by the Administartor. :)
+
 ## Application
 
 [MusicFlash](https://musicflash-e89f2.web.app/)
 
-To add a entry just register and log in.
-To ad a link from Spotify the link have to be like followed:
+To add an entry just register and log in.
+To add a link from Spotify, the link has to be like followed:
 https://open.spotify.com/embed/track/0V3wPSX9ygBnCm8psDIegu?utm_source=generator
 
 For this link, just go to Spotify, choose your song, playlist or whatever you want to share:
@@ -14,10 +18,6 @@ For this link, just go to Spotify, choose your song, playlist or whatever you wa
 ![grafik](https://user-images.githubusercontent.com/104528161/198876192-c2991218-0e4d-47ca-8d4e-8823c8b7d14a.png)
 
 Now you can add your entry.
-
-## What is MusicFlash?
-
-MusicFLash is an Music Blog where you can read about Music. It's possible for everyone to read the articles, like them and hear some previews of the Music. To create an Article you have to login. If you post is inappropriate he will get deletet by the Administartor. :)
 
 ## Prototype
 
