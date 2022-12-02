@@ -13,6 +13,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
+import { auth } from "../config/firebase";
 
 
 const drawerWidth = 240;
@@ -38,19 +39,33 @@ const Navbar: React.FC = () =>  {
                     </ListItemButton>
                 </ListItem>
                 <ListItem key="Login" disablePadding>
-                    <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/login")}>
-                        <ListItemText primary="Login" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem key="Logout" disablePadding>
+                    {auth.currentUser ? (
                     <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/logout")}>
                         <ListItemText primary="Logout" />
                     </ListItemButton>
+                        ):(
+                        <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/login")}>
+                            <ListItemText primary="Login" />
+                        </ListItemButton>
+                    )}
+                </ListItem>
+                <ListItem key="Own" disablePadding>
+                    {auth.currentUser ? (
+                    <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/own")}>
+                        <ListItemText primary="Own" />
+                    </ListItemButton>
+                        ) : (
+                            <div></div>
+                        )}
                 </ListItem>
                 <ListItem key="Add" disablePadding>
+                    {auth.currentUser ? (
                     <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/add")}>
                         <ListItemText primary="Add" />
                     </ListItemButton>
+                        ) : (
+                            <div></div>
+                        )}
                 </ListItem>
             </List>
         </Box>
@@ -83,19 +98,33 @@ const Navbar: React.FC = () =>  {
                             </Button>
                     </Box>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                            <Button onClick={() => navigate("/login")} key="Login" sx={{ color: '#fff' }}>
-                                Login
-                            </Button>
-                    </Box>
-                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                        {auth.currentUser ? (
                             <Button onClick={() => navigate("/logout")} key="Logout" sx={{ color: '#fff' }}>
                                 Logout
                             </Button>
+                            ):(
+                            <Button onClick={() => navigate("/login")} key="Login" sx={{ color: '#fff' }}>
+                                Login
+                            </Button>
+                        )}
                     </Box>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                        {auth.currentUser ? (
+                            <Button onClick={() => navigate("/own")} key="Add" sx={{ color: '#fff' }}>
+                                Own
+                            </Button>
+                        ) : (
+                            <div></div>
+                        )}
+                    </Box>
+                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                        {auth.currentUser ? (
                             <Button onClick={() => navigate("/add")} key="Add" sx={{ color: '#fff' }}>
                                 Add
                             </Button>
+                            ) : (
+                            <div></div>
+                        )}
                     </Box>
                 </Toolbar>
             </AppBar>

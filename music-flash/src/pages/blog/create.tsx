@@ -33,10 +33,8 @@ const Create: React.FC = () =>  {
         data.creatorUID = auth.currentUser?.uid;
         data.creatorMail = auth.currentUser?.email;
         data.date = Date.now();
-        console.log(data);
         BlogDataService.create(data)
            .then(() => {
-               console.log("Created new item successfully!");
                setSubmit(true);
             })
             .catch((e: Error) => {

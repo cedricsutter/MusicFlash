@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import blogDataService from "../../services/blogDataService";
 import IBlogData from "../../interfaces/blogentry";
-import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -11,12 +11,13 @@ import { auth } from "../../config/firebase";
 import Button from "@mui/material/Button";
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
-import PersonIcon from '@mui/icons-material/Person';
 import Box from "@mui/material/Box";
+
 
 
 const Blog: React.FC = () =>  {
     const [blogs,setBlogs] = useState(Array<IBlogData>);
+    const [likeColor,setLikeColor] = useState("black");
     const blogDatas : Array<IBlogData> = [];
 
     useEffect(() => {
@@ -46,13 +47,9 @@ const Blog: React.FC = () =>  {
         const newList = [...blogs];
         if (value == "newest") {
             newList.sort((a, b) => b.date - a.date);
-            console.log(newList);
             setBlogs(newList);
         } if (value == "hottest") {
             newList.sort((a, b) => b.likedBy - a.likedBy);
-            setBlogs(newList);
-        } if (value == "own"){
-            newList.sort((a, b) => a.likedBy - b.likedBy);
             setBlogs(newList);
         }
     }
@@ -72,7 +69,6 @@ const Blog: React.FC = () =>  {
                     text: data.text,
                     title: data.title
                 };
-                console.log(datas);
                 blogDatas.push(datas);
                 setBlogs(blogDatas);
             });
@@ -81,22 +77,17 @@ const Blog: React.FC = () =>  {
 
     return (
         <div>
-            <div>
-            <Box component="main" sx={{ p: 2 }}>
+            <Box component="main" sx={{ y: 1, border: 1, borderColor: 'primary.main'}}>
             <Button startIcon={<LocalFireDepartmentIcon />} onClick={() => {sortBlogs("hottest");}}>
                 Hottest
             </Button>
             <Button startIcon={<AvTimerIcon />} onClick={() => {sortBlogs("newest");}}>
                 Newest
             </Button>
-            <Button startIcon={<PersonIcon />} onClick={() => {sortBlogs("own");}}>
-                Own
-            </Button>
             </Box>
-            </div>
-            <div>
+            <Box sx={{pt: 1}}>
                 {blogs.map((blog) => (
-                <Box sx={{ pb: 1}} key={blog.id}>
+                <Box sx={{ y: 3}} key={blog.id}>
                     <Card data-index={blog.id} key={blog.id}>
                     <iframe
                     src={blog.link}
@@ -112,7 +103,7 @@ const Blog: React.FC = () =>  {
                         <Typography variant="body2" color="text.secondary">
                             {blog.text}
                         </Typography>
-                        <Typography variant="body2">
+                        <Typography variant="body2" sx={{pt: 2}}>
                             Created by: {blog.creatorMail}
                         </Typography>
                         <Typography variant="body2">
@@ -120,18 +111,13 @@ const Blog: React.FC = () =>  {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <FavoriteIcon onClick={() => {handleLike(blog.id);}}></FavoriteIcon>
-                        <div>{blog.likedBy}</div>
-                        {auth.currentUser?.email && auth.currentUser?.email === blog.creatorMail ?
-                        <DeleteForeverRoundedIcon onClick={() => {deleteBlog(blog.id);}}></DeleteForeverRoundedIcon>
-                            :
-                            <div></div>
-                        }
+                        <FavoriteBorderOutlinedIcon sx={{color: likeColor}} onMouseOver={() => {setLikeColor("red");}} onMouseLeave={() => {setLikeColor("black");}} onClick={() => {handleLike(blog.id);}}></FavoriteBorderOutlinedIcon>
+                        <Box sx={{pl: 2}}>{blog.likedBy}</Box>
                     </CardActions>
                     </Card>
                 </Box>
                 ))}
-            </div>
+            </Box>
         </div>
     );
 }
