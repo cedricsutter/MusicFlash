@@ -7,21 +7,22 @@ import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import Box from '@mui/material/Box';
 import Typography from "@mui/material/Typography";
-
+import CardContent from "@mui/material/CardContent";
+import Card from '@mui/material/Card';
 
 const Create: React.FC = () =>  {
     const [data,setData] = useState<IBlogData>({
         creatorUID: "",
         creatorMail: "",
-        date: "",
+        date: Date(),
         likedBy: 0,
         liked: [],
         link: "",
         title: "",
-        text: ""
+        text: "",
+        published: false
     })
     const [submitted, setSubmit] = useState<boolean>(false);
-
     const navigate = useNavigate();
 
     const handleChange = (event : React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +44,7 @@ const Create: React.FC = () =>  {
     }
 
     return (
-            <div>
+            <>
                 <Box sx={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -143,7 +144,32 @@ const Create: React.FC = () =>  {
                     </Box>
                 )}
                 </Box>
-            </div>
+                <>
+                    <Card data-index={data.id} key={data.id}>
+                    <iframe
+                        src={data.link}
+                        width="100%"
+                        height="152"
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy">
+                    </iframe>
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {data.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            {data.text}
+                        </Typography>
+                        <Typography variant="body2" sx={{pt: 2}}>
+                            Created by: {auth.currentUser?.email}
+                        </Typography>
+                        <Typography variant="body2">
+                            Createdate: {Date().toString().split('G')[0]}
+                        </Typography>
+                    </CardContent>
+                    </Card>
+                </>
+            </>
         );
 }
 

@@ -52,6 +52,10 @@
   },
   "devDependencies": {
     "@redux-devtools/core": "^3.13.1",
+    "@typescript-eslint/eslint-plugin": "^5.45.1",
+    "@typescript-eslint/parser": "^5.45.1",
+    "eslint": "^8.29.0",
+    "eslint-plugin-react": "^7.31.11",
     "react-router-dom": "^6.4.1"
   }
 }

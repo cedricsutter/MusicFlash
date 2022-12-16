@@ -14,25 +14,19 @@ import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 
 
 const Own: React.FC = () =>  {
-    const [ownblogs,setOwnBlogs] = useState(Array<IBlogData>);
-    //const blogDatas : Array<IBlogData> = [];
-
+    const [ownblogs, setOwnBlogs] = useState(Array<IBlogData>);
 
     useEffect(() => {
-        getBlogs();
+        const datas : any = blogDataService.getBlogsAll();
+        setOwnBlogs(datas);
     }, []);
-
-    function getBlogs() : any {
-            const datas : any = blogDataService.getBlogsAll();
-            setOwnBlogs(datas);
-    }
 
     function deleteBlog(blogid : number | any) {
         setOwnBlogs(ownblogs.filter(a => a.id !== blogid));
         blogDataService.delete(blogid);
     }
 
-    function sortBlogs(value : string) {
+    function sortBlogs() {
         const newList = [...ownblogs];
         newList.sort((a, b) => b.date - a.date);
         setOwnBlogs(newList);
@@ -41,17 +35,14 @@ const Own: React.FC = () =>  {
     return (
         <div>
             <Box component="main" sx={{ y: 1 }}>
-                <Button startIcon={<LocalFireDepartmentIcon />} onClick={() => {sortBlogs("hottest");}}>
+                <Button startIcon={<LocalFireDepartmentIcon />} onClick={() => {sortBlogs()}}>
                     Hottest
-                </Button>
-                <Button startIcon={<AvTimerIcon />} onClick={() => {sortBlogs("newest");}}>
-                    Newest
                 </Button>
             </Box>
             <div>
                 {ownblogs.map((blog) => (
                     <div key={blog.id}>
-                    {auth.currentUser?.email && auth.currentUser?.email === blog.creatorMail ? (
+                    {auth.currentUser?.email === blog.creatorMail ? (
                     <Box sx={{ pb: 1}} key={blog.id}>
                         <Card data-index={blog.id} key={blog.id}>
                             <iframe
