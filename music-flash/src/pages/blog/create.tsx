@@ -9,6 +9,9 @@ import Box from '@mui/material/Box';
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
 import Card from '@mui/material/Card';
+import Variants from '../../components/skeleton';
+import DescriptionAlerts from "../../components/addok";
+import fail from "../../components/fail";
 
 const Create: React.FC = () =>  {
     const [data,setData] = useState<IBlogData>({
@@ -23,6 +26,7 @@ const Create: React.FC = () =>  {
         published: false
     })
     const [submitted, setSubmit] = useState<boolean>(false);
+    const [failed, setFailed] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const handleChange = (event : React.ChangeEvent<HTMLInputElement>) => {
@@ -56,20 +60,7 @@ const Create: React.FC = () =>  {
                 {auth.currentUser ? (
                     <div>
                         {submitted ? (
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    p: 1,
-                                    m: 5,
-                                    bgcolor: 'background.paper',
-                                }}
-                            >
-                            <div>
-                                <h4>You submitted successfully!</h4>
-                                <Link to="/">Back Home</Link>
-                            </div>
-                            </Box>
+                            <DescriptionAlerts></DescriptionAlerts>
                         ) : (
                             <div>
                                 <Typography gutterBottom variant="h5" component="div">
@@ -146,6 +137,9 @@ const Create: React.FC = () =>  {
                 </Box>
                 <>
                     <Card data-index={data.id} key={data.id}>
+                        {!data.link ? (
+                            <Variants></Variants>
+                            ) : (
                     <iframe
                         src={data.link}
                         width="100%"
@@ -153,6 +147,7 @@ const Create: React.FC = () =>  {
                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                         loading="lazy">
                     </iframe>
+                            )}
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             {data.title}

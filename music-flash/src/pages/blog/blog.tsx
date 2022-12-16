@@ -19,6 +19,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import CircularIndeterminate from '../../components/loadline';
 
 
 const Blog: React.FC = () =>  {
@@ -26,6 +27,7 @@ const Blog: React.FC = () =>  {
     const blogDatas : Array<IBlogData> = [];
     const [open, setOpen] = React.useState(false);
     const [deleteId, setdeletedId] = React.useState("");
+    const [isloading, setisloading] = React.useState(true);
 
     const handleClickOpen = (blogid : number | any) => {
         setdeletedId(blogid);
@@ -106,12 +108,18 @@ const Blog: React.FC = () =>  {
                 };
                 blogDatas.push(datas);
                 setBlogs(blogDatas);
+                setisloading(false);
             });
         });
     };
 
     return (
         <div>
+            {isloading ? (
+                <CircularIndeterminate></CircularIndeterminate>
+                )
+                :(
+            <>
             <Box component="main" sx={{ y: 1, border: 1, borderColor: 'primary.main'}}>
             <Button startIcon={<LocalFireDepartmentIcon />} onClick={() => {sortBlogs("hottest");}}>
                 Hottest
@@ -215,6 +223,8 @@ const Blog: React.FC = () =>  {
                     </Button>
                 </DialogActions>
             </Dialog>
+            </>
+                )}
         </div>
     );
 }
