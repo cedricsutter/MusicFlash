@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
 import Box from '@mui/material/Box';
@@ -30,6 +30,9 @@ const LogoutPage: React.FC = () => {
                     <button onClick={() => navigate("/")}>Cancel</button>
                     <button onClick={() => Logout()}>Logout</button>
                 </div>
+                <small>
+                    <p>Change Password? <Link to="/forget">Change here.</Link></p>
+                </small>
               </div>
             ) : (
                 <div>

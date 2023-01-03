@@ -14,13 +14,33 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { auth } from "../config/firebase";
-
+import IAdmin from "../interfaces/IAdmin"
+import {useEffect} from "react";
+import blogDataService from "../services/blogDataService";
 
 const drawerWidth = 240;
 
 const Navbar: React.FC = () =>  {
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [admins, setAdmins] = React.useState<IAdmin>({id: "", admins: []});
     const navigate = useNavigate();
+
+    useEffect(() => {
+        getAdmin();
+    }, []);
+
+    const getAdmin = () => {
+        blogDataService.getAllAdmins().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                const admin = (doc.data());
+                const admine: IAdmin = {
+                    id: "admins",
+                    admins: admin.admins
+                };
+                setAdmins(admine);
+            });
+        });
+    }
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -38,35 +58,38 @@ const Navbar: React.FC = () =>  {
                         <ListItemText primary="Home" />
                     </ListItemButton>
                 </ListItem>
+                {auth.currentUser &&
+                <ListItem key="Own" disablePadding>
+                    <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/own")}>
+                        <ListItemText primary="Own" />
+                    </ListItemButton>
+                </ListItem>
+                }
+                {auth.currentUser &&
+                <ListItem key="Add" disablePadding>
+                    <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/add")}>
+                        <ListItemText primary="Add" />
+                    </ListItemButton>
+                </ListItem>
+                }
                 <ListItem key="Login" disablePadding>
                     {auth.currentUser ? (
-                    <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/logout")}>
-                        <ListItemText primary="Logout" />
-                    </ListItemButton>
-                        ):(
+                        <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/logout")}>
+                            <ListItemText primary="Logout" />
+                        </ListItemButton>
+                    ):(
                         <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/login")}>
                             <ListItemText primary="Login" />
                         </ListItemButton>
                     )}
                 </ListItem>
-                <ListItem key="Own" disablePadding>
-                    {auth.currentUser ? (
-                    <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/own")}>
-                        <ListItemText primary="Own" />
-                    </ListItemButton>
-                        ) : (
-                            <div></div>
-                        )}
-                </ListItem>
-                <ListItem key="Add" disablePadding>
-                    {auth.currentUser ? (
-                    <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/add")}>
-                        <ListItemText primary="Add" />
-                    </ListItemButton>
-                        ) : (
-                            <div></div>
-                        )}
-                </ListItem>
+                {admins.admins.find((element: string | null | undefined) => element == auth.currentUser?.email) &&
+                    <ListItem key="Admin" disablePadding>
+                        <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/admin")}>
+                            <ListItemText primary="Admin" />
+                        </ListItemButton>
+                    </ListItem>
+                }
             </List>
         </Box>
     );
@@ -97,35 +120,38 @@ const Navbar: React.FC = () =>  {
                                 Home
                             </Button>
                     </Box>
+                    {auth.currentUser &&
+                        <Box sx={{display: {xs: 'none', sm: 'block'}}}>
+                            <Button onClick={() => navigate("/own")} key="Add" sx={{color: '#fff'}}>
+                                Own
+                            </Button>
+                        </Box>
+                    }
+                    {auth.currentUser &&
+                        <Box sx={{display: {xs: 'none', sm: 'block'}}}>
+                            <Button onClick={() => navigate("/add")} key="Add" sx={{color: '#fff'}}>
+                                Add
+                            </Button>
+                        </Box>
+                    }
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {auth.currentUser ? (
                             <Button onClick={() => navigate("/logout")} key="Logout" sx={{ color: '#fff' }}>
                                 Logout
                             </Button>
-                            ):(
+                        ):(
                             <Button onClick={() => navigate("/login")} key="Login" sx={{ color: '#fff' }}>
                                 Login
                             </Button>
                         )}
                     </Box>
-                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                        {auth.currentUser ? (
-                            <Button onClick={() => navigate("/own")} key="Add" sx={{ color: '#fff' }}>
-                                Own
+                    {admins.admins.find((element: string | null | undefined) => element == auth.currentUser?.email) &&
+                        <Box sx={{display: {xs: 'none', sm: 'block'}}}>
+                            <Button onClick={() => navigate("/admin")} key="Admin" sx={{color: '#fff'}}>
+                                Admin
                             </Button>
-                        ) : (
-                            <div></div>
-                        )}
-                    </Box>
-                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                        {auth.currentUser ? (
-                            <Button onClick={() => navigate("/add")} key="Add" sx={{ color: '#fff' }}>
-                                Add
-                            </Button>
-                            ) : (
-                            <div></div>
-                        )}
-                    </Box>
+                        </Box>
+                    }
                 </Toolbar>
             </AppBar>
             <Box component="nav">

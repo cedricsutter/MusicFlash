@@ -7,6 +7,7 @@ import RegisterPage from "../pages/auth/register";
 import Create from "../pages/blog/create";
 import Own from "../pages/blog/own"
 import Blog from "../pages/blog/blog";
+import Admin from "../pages/blog/admin";
 
 const routes: IRoute[] = [
     {
@@ -48,6 +49,11 @@ const routes: IRoute[] = [
         path: '/own',
         component: Own,
         name: 'My own Posts'
+    },
+    {
+        path: '/admin',
+        component: Admin,
+        name: 'Admin'
     }
 ];
 

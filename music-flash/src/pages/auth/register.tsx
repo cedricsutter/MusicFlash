@@ -32,7 +32,6 @@ const RegisterPage: React.FC = () => {
             })
             .catch(error => {
                 logging.error(error);
-
                 if (error.code.includes('auth/weak-password'))
                 {
                     setError('Please enter a stronger password.');
@@ -45,7 +44,6 @@ const RegisterPage: React.FC = () => {
                 {
                     setError('Unable to register.  Please try again later.')
                 }
-
                 setRegistering(false);
             });
     }

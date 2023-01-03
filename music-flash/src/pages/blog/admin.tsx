@@ -4,7 +4,6 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { auth } from "../../config/firebase";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { Dispatch } from "redux";
@@ -16,29 +15,33 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
-import {hottestBlog, newestBlog, removeBlog} from "../../store/actionCreators";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import {removeBlog, publishBlog, newestBlog} from "../../store/actionCreators";
 import CardActions from '@mui/material/CardActions';
-import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import AvTimerIcon from "@mui/icons-material/AvTimer";
 import DescriptionAlerts from "../../components/infobar";
 
-const Own: React.FC = () =>  {
-    const blogStore: IBlogData[] = useSelector(
-        (state: BlogState) => state.blog,
-        shallowEqual
-    )
-
+const Admin: React.FC = () =>  {
     const [open, setOpen] = React.useState(false);
     const [deleteId, setdeletedId] = React.useState<IBlogData | any>();
+    const [publish, setPublish] = React.useState<boolean>();
     const dispatch: Dispatch<any> = useDispatch();
 
-
+    const blogStore: IBlogData[] = useSelector(
+        (state: BlogState) => state.blog
+    )
     const deleteBlog = React.useCallback(
         (blog: IBlogData) => dispatch(removeBlog(blog)),
         [dispatch, removeBlog]
     )
-
+    const publisheBlog = React.useCallback(
+        (blog: IBlogData) => dispatch(publishBlog(blog)),
+        [dispatch, publishBlog]
+    )
+    const sortN = React.useCallback(
+        (blog: IBlogData) => dispatch(newestBlog(blog)),
+        [dispatch, newestBlog]
+    )
     const handleClickOpen = (blog : IBlogData) => {
         setdeletedId(blog);
         setOpen(true);
@@ -46,36 +49,29 @@ const Own: React.FC = () =>  {
     const handleClose = () => {
         setOpen(false);
     };
-    function deleteBloge() {
+    function deletBloge() {
         deleteBlog(deleteId);
         setOpen(false);
     }
-    const sortH = React.useCallback(
-        (blog: IBlogData) => dispatch(hottestBlog(blog)),
-        [dispatch, hottestBlog]
-    )
-    const sortN = React.useCallback(
-        (blog: IBlogData) => dispatch(newestBlog(blog)),
-        [dispatch, newestBlog]
-    )
+    function publishBloge() {
+        publisheBlog(deleteId);
+        setOpen(false);
+    }
 
     return (
             <div>
-                {blogStore.some((element) => element.creatorMail === auth.currentUser?.email) ? (
+                {blogStore.some((element) => element.published === false) ? (
                 <div>
-                <Box component="main" sx={{ y: 1, border: 1, borderColor: 'primary.main'}}>
-                    <Button startIcon={<LocalFireDepartmentIcon />} onClick={() => {sortH(blogStore[0]);}}>
-                         Hottest
-                    </Button>
-                    <Button startIcon={<AvTimerIcon />} onClick={() => {sortN(blogStore[0]);}}>
-                         Newest
-                    </Button>
-                </Box>
-                <Box sx={{pt: 1}}>
-                {blogStore.map((blog: IBlogData) => (
+                    <Box component="main" sx={{ y: 1, border: 1, borderColor: 'primary.main'}}>
+                        <Button startIcon={<AvTimerIcon />} onClick={() => {sortN(blogStore[0]);}}>
+                            Newest
+                        </Button>
+                    </Box>
+                    <Box sx={{pt: 1}}>
+                    {blogStore.map((blog: IBlogData) => (
                     <>
-                    {auth.currentUser?.email == blog.creatorMail &&
-                            <>
+                    {blog.published == false &&
+                            <div key={blog.id}>
                                 <Box sx={{ pb: 1}} key={blog.id}>
                                     <Card data-index={blog.id} key={blog.id}>
                                         <iframe
@@ -103,21 +99,20 @@ const Own: React.FC = () =>  {
                                             {blog.id &&
                                                 <>
                                                     <>
-                                                        <FavoriteIcon key={blog.likedBy + "3"}></FavoriteIcon>
-                                                        <Box key={blog.likedBy + "4"}>{blog.likedBy}</Box>
+                                                    <IconButton key={blog.likedBy + "5"} aria-label="add to favorites">
+                                                        <AddCircleOutlineIcon key={blog.likedBy + "6"} href="#" onClick={() => {setPublish(true), handleClickOpen(blog)}}></AddCircleOutlineIcon>
+                                                    </IconButton>
+                                                    <span>Publish entry </span>
                                                     </>
                                                     <>
                                                         <IconButton key={blog.likedBy + "5"} color="error" aria-label="add to favorites">
-                                                            <DeleteForeverRoundedIcon key={blog.likedBy + "6"} href="#" onClick={() => {handleClickOpen(blog)}}></DeleteForeverRoundedIcon>
+                                                            <DeleteForeverRoundedIcon key={blog.likedBy + "6"} href="#" onClick={() => {setPublish(false), handleClickOpen(blog)}}></DeleteForeverRoundedIcon>
                                                         </IconButton>
                                                     </>
                                                 </>
                                             }
                                             {!blog.id &&
                                                 <p>No possible Actions. Please reload the side!</p>
-                                            }
-                                            {!blog.published &&
-                                                <p>Not published yet</p>
                                             }
                                         </CardActions>
                                     </Card>
@@ -128,26 +123,48 @@ const Own: React.FC = () =>  {
                                     aria-labelledby="alert-dialog-title"
                                     aria-describedby="alert-dialog-description"
                                 >
-                                    <DialogTitle id="alert-dialog-title">
-                                        {"Delete"}
-                                    </DialogTitle>
-                                    <DialogContent>
+                                    {publish === true &&
+                                        <>
+                                        <DialogTitle id="alert-dialog-title">
+                                            {"Publish"}
+                                        </DialogTitle>
+                                        <DialogContent>
                                         <DialogContentText id="alert-dialog-description">
-                                            You really want to delete your own Blogentry?
+                                        You really want to publish this Blogentry?
                                         </DialogContentText>
-                                    </DialogContent>
-                                    <DialogActions>
+                                        </DialogContent>
+                                        <DialogActions>
                                         <Button onClick={handleClose}>No</Button>
-                                        <Button onClick={deleteBloge} autoFocus>
-                                            Yes
+                                        <Button onClick={publishBloge} autoFocus>
+                                        Yes
                                         </Button>
-                                    </DialogActions>
+                                        </DialogActions>
+                                        </>
+                                    }
+                                    {publish === false &&
+                                        <>
+                                            <DialogTitle id="alert-dialog-title">
+                                                {"Delete"}
+                                            </DialogTitle>
+                                            <DialogContent>
+                                                <DialogContentText id="alert-dialog-description">
+                                                    You really want to delete this Blogentry?
+                                                </DialogContentText>
+                                            </DialogContent>
+                                            <DialogActions>
+                                                <Button onClick={handleClose}>No</Button>
+                                                <Button onClick={deletBloge} autoFocus>
+                                                    Yes
+                                                </Button>
+                                            </DialogActions>
+                                        </>
+                                    }
                                 </Dialog>
-                            </>
+                            </div>
                     }
                     </>
                 ))}
-                    </Box>
+                </Box>
                 </div>
                 ) : (
                     <>
@@ -157,4 +174,4 @@ const Own: React.FC = () =>  {
             </div>
     );
 }
-export default Own;
+export default Admin

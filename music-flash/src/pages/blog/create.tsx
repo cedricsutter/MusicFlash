@@ -10,11 +10,14 @@ import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
 import Card from '@mui/material/Card';
 import Variants from '../../components/skeleton';
-import DescriptionAlerts from "../../components/addok";
-import fail from "../../components/fail";
+import DescriptionAlerts from "../../components/infobar";
+import {Dispatch} from "redux";
+import {addBlog} from "../../store/actionCreators";
+import {useDispatch} from "react-redux";
 
 const Create: React.FC = () =>  {
     const [data,setData] = useState<IBlogData>({
+        id: "",
         creatorUID: "",
         creatorMail: "",
         date: Date(),
@@ -26,8 +29,13 @@ const Create: React.FC = () =>  {
         published: false
     })
     const [submitted, setSubmit] = useState<boolean>(false);
-    const [failed, setFailed] = useState<boolean>(false);
     const navigate = useNavigate();
+    const dispatch: Dispatch<any> = useDispatch()
+
+    const saveBlog = React.useCallback(
+        (blog: IBlogData) => dispatch(addBlog(blog)),
+        [dispatch]
+    )
 
     const handleChange = (event : React.ChangeEvent<HTMLInputElement>) => {
         setData({...data,[event.target.name] : event.target.value});
@@ -38,13 +46,8 @@ const Create: React.FC = () =>  {
         data.creatorUID = auth.currentUser?.uid;
         data.creatorMail = auth.currentUser?.email;
         data.date = Date.now();
-        BlogDataService.create(data)
-           .then(() => {
-               setSubmit(true);
-            })
-            .catch((e: Error) => {
-                console.log(e);
-            });
+        saveBlog(data);
+        setSubmit(true);
     }
 
     return (
@@ -60,7 +63,7 @@ const Create: React.FC = () =>  {
                 {auth.currentUser ? (
                     <div>
                         {submitted ? (
-                            <DescriptionAlerts></DescriptionAlerts>
+                            <DescriptionAlerts purpose ="success"></DescriptionAlerts>
                         ) : (
                             <div>
                                 <Typography gutterBottom variant="h5" component="div">

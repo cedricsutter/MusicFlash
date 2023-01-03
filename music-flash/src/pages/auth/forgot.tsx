@@ -4,6 +4,7 @@ import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
 import Box from '@mui/material/Box';
 
+
 const ForgotPasswordPage: React.FC = () => {
     const [sending, setSending] = useState<boolean>(false);
     const [sent, setSent] = useState<boolean>(false);
@@ -41,7 +42,7 @@ const ForgotPasswordPage: React.FC = () => {
             {sent ?
                 <p>A link has been sent to your email with instructions.</p>
                 :
-                <>
+                <div>
                     <p>Please enter your email.</p>
                     <form>
                         <input
@@ -61,7 +62,7 @@ const ForgotPasswordPage: React.FC = () => {
                         Send Reset Link
                     </button>
                     <ErrorText error={error} />
-                </>
+                </div>
             }
             </Box>
         </div>

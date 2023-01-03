@@ -43,11 +43,11 @@ const Application: React.FC = () => {
                     <div>
 
                             <Routes>
-                                {routes.map((route, index) =>
+                                {routes.map((route, name) =>
                                     <Route
-                                        key={index}
+                                        key={name}
                                         path={route.path}
-                                        element={<route.component />}
+                                        element={<route.component/>}
                                     />)}
                             </Routes>
                     </div>
