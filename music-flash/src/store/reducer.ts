@@ -28,18 +28,26 @@ const getBlogs = () => {
 
 getBlogs();
 
+console.log(blogEntries);
+
 export const initialState: BlogState = {
     blog: blogEntries
 }
+
+console.log(initialState);
 
 export const reducer = (
     state: BlogState = initialState,
     action: BlogAction
         ): BlogState => {
         switch (action.type) {
+            case actionTypes.GET_BLOG:
+                return {
+                    ...state,
+                    blog: state.blog,
+                }
             case actionTypes.ADD_BLOG:
                 const newBlog: IBlogData = action.blog;
-                console.log(newBlog);
                 return {
                     ...state,
                     blog: state.blog.concat(newBlog),

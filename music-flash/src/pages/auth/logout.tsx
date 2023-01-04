@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
 import Box from '@mui/material/Box';
+import Button from "@mui/material/Button";
 
 const LogoutPage: React.FC = () => {
     const navigate = useNavigate();
@@ -27,8 +28,8 @@ const LogoutPage: React.FC = () => {
               <div>
                 <p>Are you sure you want to logout?</p>
                 <div>
-                    <button onClick={() => navigate("/")}>Cancel</button>
-                    <button onClick={() => Logout()}>Logout</button>
+                    <Button sx={{mr: 3}} variant="contained" color="error" onClick={() => navigate("/")}>Cancel</Button>
+                    <Button variant="contained" color="success" onClick={() => Logout()}>Logout</Button>
                 </div>
                 <small>
                     <p>Change Password? <Link to="/forget">Change here.</Link></p>

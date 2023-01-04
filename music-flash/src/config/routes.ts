@@ -1,5 +1,4 @@
 import IRoute from "../interfaces/route";
-import ChangePasswordPage from "../pages/auth/change";
 import ForgotPasswordPage from "../pages/auth/forgot";
 import LoginPage from "../pages/auth/login";
 import LogoutPage from "../pages/auth/logout";
@@ -8,6 +7,7 @@ import Create from "../pages/blog/create";
 import Own from "../pages/blog/own"
 import Blog from "../pages/blog/blog";
 import Admin from "../pages/blog/admin";
+import AccountInfo from "../pages/blog/accountinfo";
 
 const routes: IRoute[] = [
     {
@@ -24,11 +24,6 @@ const routes: IRoute[] = [
         path: '/login',
         component: LoginPage,
         name: 'Login Page'
-    },
-    {
-        path: '/change',
-        component: ChangePasswordPage,
-        name: 'Change Password Page'
     },
     {
         path: '/logout',
@@ -54,6 +49,11 @@ const routes: IRoute[] = [
         path: '/admin',
         component: Admin,
         name: 'Admin'
+    },
+    {
+        path: '/accountinfo',
+        component: AccountInfo,
+        name: 'Account Info'
     }
 ];
 

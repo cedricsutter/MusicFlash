@@ -3,6 +3,7 @@ import blogEntry from "../interfaces/blogentry";
 
 const db = blog.collection("BlogPosts");
 const dbAdmin = blog.collection("Admins");
+import logging from "../config/logging";
 
 class BlogDataService {
     getAll() {
@@ -19,36 +20,36 @@ class BlogDataService {
 
     updateLike(docid: string | any, value: any) {
         return db.doc(docid).update({likedBy: value}).then(() => {
-            console.log("Document successfully updated!");
+            logging.info("Document successfully updated!");
         })
             .catch((error) => {
-                console.error("Error updating document: ", error);
+                logging.error("Error updating document: ", error);
             });
     }
 
     updateLiked(docid: string | any, value: any) {
         return db.doc(docid).update({liked: value}).then(() => {
-            console.log("Document successfully updated!");
+            logging.info("Document successfully updated!");
         })
             .catch((error) => {
-                console.error("Error updating document: ", error);
+                logging.error("Error updating document: ", error);
             });
     }
 
     updatePublished(docid: string | any) {
         return db.doc(docid).update({published: true}).then(() => {
-            console.log("Document successfully updated!");
+            logging.info("Document successfully updated!");
         })
             .catch((error) => {
-                console.error("Error updating document: ", error);
+                logging.error("Error updating document: ", error);
             });
     }
 
     delete(id: string | any) {
         return db.doc(id).delete().then(() => {
-            console.log("Document successfully deleted!");
+            logging.info("Document successfully deleted!");
         }).catch((error) => {
-            console.error("Error removing document: ", error);
+            logging.error("Error removing document: ", error);
         });
     }
 }

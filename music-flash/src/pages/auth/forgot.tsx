@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import ErrorText from '../../components/ErrorText';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
 import Box from '@mui/material/Box';
+import DescriptionAlerts from "../../components/infobar";
+import Button from "@mui/material/Button";
 
 
 const ForgotPasswordPage: React.FC = () => {
@@ -40,7 +41,7 @@ const ForgotPasswordPage: React.FC = () => {
                 borderRadius: 1,
             }} >
             {sent ?
-                <p>A link has been sent to your email with instructions.</p>
+                <DescriptionAlerts info = "A link has been sent to your email with instructions." purpose = "reset"></DescriptionAlerts>
                 :
                 <div>
                     <p>Please enter your email.</p>
@@ -54,17 +55,15 @@ const ForgotPasswordPage: React.FC = () => {
                             value={email}
                         />
                     </form>
-                    <button
-                        disabled={sending}
-                        color="success"
-                        onClick={() => resetPasswordRequest()}
-                    >
-                        Send Reset Link
-                    </button>
-                    <ErrorText error={error} />
+                    <div>
+                        <Button sx={{mt: 1}} disabled={sending} variant="contained" color="success" onClick={() => resetPasswordRequest()}>Reset</Button>
+                    </div>
                 </div>
             }
             </Box>
+            {error &&
+                <DescriptionAlerts purpose="error" info={error}></DescriptionAlerts>
+            }
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Component, useState, useEffect } from "react";
 import IBlogData from "../../interfaces/blogentry";
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -25,12 +25,15 @@ import {likeMinus, likePlus, hottestBlog, newestBlog} from "../../store/actionCr
 
 
 const Blog: React.FC = () =>  {
+
     const blogStore: IBlogData[] = useSelector(
         (state: BlogState) => state.blog,
         shallowEqual
     )
 
     const [open, setOpen] = React.useState(false);
+    const [sortState, setSortState] = React.useState("newest");
+    const [likedCount, setLikedCount] = React.useState(true);
     const dispatch: Dispatch<any> = useDispatch();
 
     const likeP = React.useCallback(
@@ -78,14 +81,14 @@ const Blog: React.FC = () =>  {
     return (
         <div>
             <>
-            <Box component="main" sx={{ y: 1, border: 1, borderColor: 'primary.main'}}>
-            <Button startIcon={<LocalFireDepartmentIcon />} onClick={() => {sortH(blogStore[0]);}}>
-                Hottest
-            </Button>
-            <Button startIcon={<AvTimerIcon />} onClick={() => {sortN(blogStore[0]);}}>
-                Newest
-            </Button>
-            </Box>
+                    <Box component="main" sx={{y: 1, border: 1, borderColor: 'primary.main'}}>
+                            <Button startIcon={<LocalFireDepartmentIcon/>} onClick={() => {sortH(blogStore[0]); setSortState("hottest")}}>
+                            Hottest
+                            </Button>
+                            <Button startIcon={<AvTimerIcon/>} onClick={() => {sortN(blogStore[0]); setSortState("newest")}}>
+                            Newest
+                            </Button>
+                    </Box>
             <Box sx={{pt: 1}}>
                 {blogStore.map((blog : IBlogData) => (
                 <>
@@ -122,7 +125,7 @@ const Blog: React.FC = () =>  {
                                             <>
                                                 <IconButton key={blog.likedBy} color="error" aria-label="add to favorites">
                                                     <FavoriteIcon key={blog.likedBy + "1"} onClick={() => {
-                                                        handleLike(blog.id, auth.currentUser?.email);
+                                                        handleLike(blog.id, auth.currentUser?.email); likedCount ? setLikedCount(false): setLikedCount(true)
                                                     }}>blog.likedBy</FavoriteIcon>
                                                 </IconButton>
                                                 <Box key={blog.likedBy + 2}>{blog.likedBy}</Box>
@@ -131,7 +134,7 @@ const Blog: React.FC = () =>  {
                                             <>
                                                 <IconButton key={blog.likedBy} color="error" aria-label="add to favorites">
                                                     <FavoriteBorderOutlinedIcon key={blog.likedBy + "1"} onClick={() => {
-                                                        handleLike(blog.id, auth.currentUser?.email);
+                                                        handleLike(blog.id, auth.currentUser?.email); likedCount ? setLikedCount(false): setLikedCount(true)
                                                     }}>blog.likedBy</FavoriteBorderOutlinedIcon>
                                                 </IconButton>
                                                 <Box key={blog.likedBy + 2}>{blog.likedBy}</Box>

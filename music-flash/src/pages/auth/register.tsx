@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import ErrorText from '../../components/ErrorText';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
 import Box from '@mui/material/Box';
+import Button from "@mui/material/Button";
+import DescriptionAlerts from "../../components/infobar";
 
 const RegisterPage: React.FC = () => {
     const [registering, setRegistering] = useState<boolean>(false);
@@ -58,6 +59,7 @@ const RegisterPage: React.FC = () => {
                 bgcolor: 'background.paper',
                 borderRadius: 1,
             }} >
+                <div>
             <form>
                 <input
                     type="email"
@@ -81,6 +83,7 @@ const RegisterPage: React.FC = () => {
             </form>
             <form>
                 <input
+                    required
                     autoComplete="new-password"
                     type="password"
                     name="confirm"
@@ -90,18 +93,17 @@ const RegisterPage: React.FC = () => {
                     value={confirm}
                 />
             </form>
-            <button
-                disabled={registering}
-                color="success"
-                onClick={() => signUpWithEmailAndPassword()}
-            >
-                Sign Up
-            </button>
+            <div>
+                <Button sx={{mt: 3, mb: 1}} disabled={registering} variant="contained" color="success" onClick={() => signUpWithEmailAndPassword()}>Login</Button>
+            </div>
             <small>
                 <p>Already have an account? <Link to="/login">Login.</Link></p>
             </small>
-            <ErrorText error={error} />
+                </div>
             </Box>
+            {error &&
+                <DescriptionAlerts purpose="error" info={error}></DescriptionAlerts>
+            }
         </div>
     );
 }

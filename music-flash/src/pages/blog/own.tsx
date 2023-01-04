@@ -30,6 +30,7 @@ const Own: React.FC = () =>  {
     )
 
     const [open, setOpen] = React.useState(false);
+    const [sortState, setSortState] = React.useState("");
     const [deleteId, setdeletedId] = React.useState<IBlogData | any>();
     const dispatch: Dispatch<any> = useDispatch();
 
@@ -64,10 +65,10 @@ const Own: React.FC = () =>  {
                 {blogStore.some((element) => element.creatorMail === auth.currentUser?.email) ? (
                 <div>
                 <Box component="main" sx={{ y: 1, border: 1, borderColor: 'primary.main'}}>
-                    <Button startIcon={<LocalFireDepartmentIcon />} onClick={() => {sortH(blogStore[0]);}}>
+                    <Button startIcon={<LocalFireDepartmentIcon />} onClick={() => {sortH(blogStore[0]); setSortState("Newest")}}>
                          Hottest
                     </Button>
-                    <Button startIcon={<AvTimerIcon />} onClick={() => {sortN(blogStore[0]);}}>
+                    <Button startIcon={<AvTimerIcon />} onClick={() => {sortN(blogStore[0]); setSortState("Hottest")}}>
                          Newest
                     </Button>
                 </Box>

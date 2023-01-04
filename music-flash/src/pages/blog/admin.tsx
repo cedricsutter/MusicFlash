@@ -38,10 +38,6 @@ const Admin: React.FC = () =>  {
         (blog: IBlogData) => dispatch(publishBlog(blog)),
         [dispatch, publishBlog]
     )
-    const sortN = React.useCallback(
-        (blog: IBlogData) => dispatch(newestBlog(blog)),
-        [dispatch, newestBlog]
-    )
     const handleClickOpen = (blog : IBlogData) => {
         setdeletedId(blog);
         setOpen(true);
@@ -62,11 +58,6 @@ const Admin: React.FC = () =>  {
             <div>
                 {blogStore.some((element) => element.published === false) ? (
                 <div>
-                    <Box component="main" sx={{ y: 1, border: 1, borderColor: 'primary.main'}}>
-                        <Button startIcon={<AvTimerIcon />} onClick={() => {sortN(blogStore[0]);}}>
-                            Newest
-                        </Button>
-                    </Box>
                     <Box sx={{pt: 1}}>
                     {blogStore.map((blog: IBlogData) => (
                     <>

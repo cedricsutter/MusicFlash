@@ -66,9 +66,6 @@ const Create: React.FC = () =>  {
                             <DescriptionAlerts purpose ="success"></DescriptionAlerts>
                         ) : (
                             <div>
-                                <Typography gutterBottom variant="h5" component="div">
-                                    Create a new blog Entry!
-                                </Typography>
                                 <form onSubmit={(e) => handleSubmit(e)} >
                                     <Box
                                         sx={{
@@ -79,6 +76,9 @@ const Create: React.FC = () =>  {
                                             bgcolor: 'background.paper',
                                         }}
                                     >
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        Create a new blog Entry!
+                                    </Typography>
                                     <TextField
                                         id="outlined-multiline-flexible"
                                         placeholder = "Add a title!"
@@ -88,6 +88,7 @@ const Create: React.FC = () =>  {
                                         maxRows={1}
                                         required
                                         onChange={handleChange}
+                                        sx={{mb: 0.5}}
                                     />
                                     <TextField
                                         id="outlined-multiline-flexible"
@@ -98,6 +99,7 @@ const Create: React.FC = () =>  {
                                         maxRows={4}
                                         required
                                         onChange={handleChange}
+                                        sx={{mb: 1}}
                                     />
                                     <input
                                         name="link"
@@ -108,12 +110,12 @@ const Create: React.FC = () =>  {
                                         required={true}
                                         id="outlined-multiline-flexible"
                                     />
-                                    <Typography variant="body2" color="text.secondary">
+                                    <Typography sx={{mb: 1}} variant="body2" color="text.secondary">
                                        The Link has to be copied from Spotify: he has to be in the Format:
                                        https://open.spotify.com/embed/track/ + TrackId + utm_source=generator
                                     </Typography>
                                     <div>
-                                    <Button variant="contained" type={"submit"} color="success">Add</Button>
+                                    <Button sx={{mr: 3}} variant="contained" type={"submit"} color="success">Add</Button>
                                     <Button variant="contained" onClick={() => navigate("/")} color="error">Cancel</Button>
                                     </div>
                                     </Box>

@@ -12,11 +12,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { auth } from "../config/firebase";
 import IAdmin from "../interfaces/IAdmin"
 import {useEffect} from "react";
 import blogDataService from "../services/blogDataService";
+import Avatar from '@mui/material/Avatar';
 
 const drawerWidth = 240;
 
@@ -59,18 +60,18 @@ const Navbar: React.FC = () =>  {
                     </ListItemButton>
                 </ListItem>
                 {auth.currentUser &&
+                <>
                 <ListItem key="Own" disablePadding>
                     <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/own")}>
                         <ListItemText primary="Own" />
                     </ListItemButton>
                 </ListItem>
-                }
-                {auth.currentUser &&
                 <ListItem key="Add" disablePadding>
                     <ListItemButton sx={{ textAlign: 'center' }} onClick={() => navigate("/add")}>
                         <ListItemText primary="Add" />
                     </ListItemButton>
                 </ListItem>
+                </>
                 }
                 <ListItem key="Login" disablePadding>
                     {auth.currentUser ? (
@@ -121,18 +122,18 @@ const Navbar: React.FC = () =>  {
                             </Button>
                     </Box>
                     {auth.currentUser &&
+                        <>
                         <Box sx={{display: {xs: 'none', sm: 'block'}}}>
                             <Button onClick={() => navigate("/own")} key="Add" sx={{color: '#fff'}}>
                                 Own
                             </Button>
                         </Box>
-                    }
-                    {auth.currentUser &&
                         <Box sx={{display: {xs: 'none', sm: 'block'}}}>
                             <Button onClick={() => navigate("/add")} key="Add" sx={{color: '#fff'}}>
                                 Add
                             </Button>
                         </Box>
+                        </>
                     }
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {auth.currentUser ? (
@@ -149,6 +150,13 @@ const Navbar: React.FC = () =>  {
                         <Box sx={{display: {xs: 'none', sm: 'block'}}}>
                             <Button onClick={() => navigate("/admin")} key="Admin" sx={{color: '#fff'}}>
                                 Admin
+                            </Button>
+                        </Box>
+                    }
+                    {auth.currentUser &&
+                        <Box sx={{ml:1, display: {xs: 'none', sm: 'block'}}}>
+                            <Button onClick={() => navigate("/accountinfo")} key="Home" sx={{ color: '#fff' }}>
+                                <Avatar>{auth.currentUser.email?.charAt(0).toUpperCase()}</Avatar>
                             </Button>
                         </Box>
                     }

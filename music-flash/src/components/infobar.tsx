@@ -15,11 +15,19 @@ export default function DescriptionAlerts(props : any) {
                     </Alert>
                 </Stack>
             }
+            {props.purpose == "reset" &&
+                <Stack sx={{width: '100%'}} spacing={2}>
+                    <Alert severity="success">
+                        <AlertTitle>Reseted</AlertTitle>
+                        {props.info} <Link to="/login">Login again</Link>
+                    </Alert>
+                </Stack>
+            }
             {props.purpose == "error" &&
                 <Stack sx={{width: '100%'}} spacing={2}>
                     <Alert severity="error">
-                        <AlertTitle>Added</AlertTitle>
-                        Something went wrong. Try again later. <Link to="/">Back home</Link>
+                        <AlertTitle>Error</AlertTitle>
+                        {props.info}
                     </Alert>
                 </Stack>
             }

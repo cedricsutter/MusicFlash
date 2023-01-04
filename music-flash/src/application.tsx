@@ -41,7 +41,6 @@ const Application: React.FC = () => {
                     <Navbar />
                 </>
                     <div>
-
                             <Routes>
                                 {routes.map((route, name) =>
                                     <Route

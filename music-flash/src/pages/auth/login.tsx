@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import ErrorText from '../../components/ErrorText';
 import { auth } from '../../config/firebase';
 import logging from '../../config/logging';
 import Box from '@mui/material/Box';
+import DescriptionAlerts from "../../components/infobar";
+import Button from "@mui/material/Button";
 
 const LoginPage: React.FC = () => {
     const [authenticating, setAuthenticating] = useState<boolean>(false);
@@ -67,22 +68,20 @@ const LoginPage: React.FC = () => {
                             value={password}
                         />
                     </form>
-                    <button
-                        disabled={authenticating}
-                        color="success"
-                        onClick={() => signInWithEmailAndPassword()}
-                    >
-                        Login
-                    </button>
+                    <div>
+                        <Button sx={{mt: 3, mb: 1}} disabled={authenticating} variant="contained" color="success" onClick={() => signInWithEmailAndPassword()}>Login</Button>
+                    </div>
                     <small>
                         <p>Dont have an account? <Link to="/register">Register here.</Link></p>
                         <p><Link to="/forget">Forget your password?</Link></p>
                         <p><Link to="/">Visit without Login.</Link></p>
                     </small>
-                    <ErrorText error={error} />
                 </div>
                 )}
             </Box>
+            {error &&
+                <DescriptionAlerts purpose="error" info={error}></DescriptionAlerts>
+            }
         </div>
     );
 }
