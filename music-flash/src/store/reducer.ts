@@ -28,13 +28,9 @@ const getBlogs = () => {
 
 getBlogs();
 
-console.log(blogEntries);
-
 export const initialState: BlogState = {
     blog: blogEntries
 }
-
-console.log(initialState);
 
 export const reducer = (
     state: BlogState = initialState,

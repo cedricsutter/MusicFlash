@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import BlogDataService from "../../services/blogDataService";
 import IBlogData from "../../interfaces/blogentry";
 import { auth } from "../../config/firebase";
 import {Link , useNavigate} from "react-router-dom";
@@ -30,6 +29,7 @@ const Create: React.FC = () =>  {
     })
     const [submitted, setSubmit] = useState<boolean>(false);
     const navigate = useNavigate();
+    const regex = new RegExp("^https:\/\/open.spotify.com\/embed\/.+");
     const dispatch: Dispatch<any> = useDispatch()
 
     const saveBlog = React.useCallback(
@@ -99,21 +99,29 @@ const Create: React.FC = () =>  {
                                         maxRows={4}
                                         required
                                         onChange={handleChange}
-                                        sx={{mb: 1}}
+                                        sx={{mb: 0.5}}
                                     />
+                                    <Typography sx={{fontWeight: 'bold'}} variant="body2" color="text.secondary">
+                                        Spotify Link:
+                                    </Typography>
                                     <input
                                         name="link"
                                         type="link"
-                                        placeholder = "Add a Spotify Link!"
+                                        placeholder = "https://open.spotify.com/embed/track/ + TrackId"
                                         onChange={handleChange}
                                         pattern = "^https:\/\/open.spotify.com\/embed\/.+"
                                         required={true}
                                         id="outlined-multiline-flexible"
                                     />
-                                    <Typography sx={{mb: 1}} variant="body2" color="text.secondary">
-                                       The Link has to be copied from Spotify: he has to be in the Format:
-                                       https://open.spotify.com/embed/track/ + TrackId + utm_source=generator
+                                    <Typography sx={{fontWeight: 'bold'}} variant="body2" color="text.secondary">
+                                        The Link has to be copied from Spotify: he has to be in the Format:
+                                        https://open.spotify.com/embed/track/ + TrackId
                                     </Typography>
+                                        {!regex.test(data.link) ? (
+                                            <Typography sx={{fontSize: 70}}>&#128542;</Typography>
+                                        ) : (
+                                            <Typography sx={{fontSize: 70}}>&#128512;</Typography>
+                                        )}
                                     <div>
                                     <Button sx={{mr: 3}} variant="contained" type={"submit"} color="success">Add</Button>
                                     <Button variant="contained" onClick={() => navigate("/")} color="error">Cancel</Button>
@@ -142,11 +150,11 @@ const Create: React.FC = () =>  {
                 </Box>
                 <>
                     <Card data-index={data.id} key={data.id}>
-                        {!data.link ? (
+                        {!regex.test(data.link) ? (
                             <Variants></Variants>
                             ) : (
                     <iframe
-                        src={data.link}
+                        src= {data.link}
                         width="100%"
                         height="152"
                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"

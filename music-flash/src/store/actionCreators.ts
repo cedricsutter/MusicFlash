@@ -1,14 +1,30 @@
 import * as actionTypes from "./actionTypes"
 import IBlogData from "../interfaces/blogentry";
-import {BlogAction, DispatchType, BlogState} from "../interfaces/types";
+import {BlogAction, DispatchType} from "../interfaces/types";
 import BlogDataService from "../services/blogDataService";
+import logging from "../config/logging";
+
+
+export function getBlog(blog: IBlogData) {
+    const action: BlogAction = {
+        type: actionTypes.GET_BLOG,
+        blog,
+    }
+    return (dispatch : DispatchType) => dispatch(action);
+}
 
 export function addBlog(blog: IBlogData) {
     const action: BlogAction = {
         type: actionTypes.ADD_BLOG,
         blog,
     }
-    BlogDataService.create(blog);
+    BlogDataService.create(blog).then(() => {
+        logging.info("Successfully added!");
+    })
+        .catch((error) => {
+            logging.error("Error updating document: ", error);
+            alert(error + " Reload side and try again");
+        });;
     return (dispatch : DispatchType) => dispatch(action);
 }
 
@@ -17,7 +33,12 @@ export function removeBlog(blog: IBlogData) {
         type: actionTypes.REMOVE_BLOG,
         blog,
     }
-    BlogDataService.delete(blog.id);
+    BlogDataService.delete(blog.id).then(() => {
+        logging.info("Document successfully deleted!");
+    }).catch((error) => {
+        logging.error("Error removing document: ", error);
+        alert(error + " Reload side and try again");
+    });;
     return (dispatch : DispatchType) => dispatch(action);
 }
 
@@ -26,8 +47,20 @@ export function likePlus(blog: IBlogData) {
         type: actionTypes.LIKE_BLOGP,
         blog,
     }
-    BlogDataService.updateLike(blog.id, blog.likedBy + 1);
-    BlogDataService.updateLiked(blog.id, blog.liked);
+    BlogDataService.updateLike(blog.id, blog.likedBy + 1).then(() => {
+        logging.info("Document successfully updated!");
+    })
+        .catch((error) => {
+            logging.error("Error updating document: ", error);
+            alert(error + " Reload side and try again");
+        });
+    BlogDataService.updateLiked(blog.id, blog.liked).then(() => {
+        logging.info("Document successfully updated!");
+    })
+        .catch((error) => {
+            logging.error("Error updating document: ", error);
+            alert(error + " Reload side and try again");
+        });
     return (dispatch : DispatchType) => dispatch(action);
 }
 
@@ -36,8 +69,20 @@ export function likeMinus(blog: IBlogData) {
         type: actionTypes.LIKE_BLOGM,
         blog,
     }
-    BlogDataService.updateLike(blog.id, blog.likedBy - 1);
-    BlogDataService.updateLiked(blog.id, blog.liked);
+    BlogDataService.updateLike(blog.id, blog.likedBy - 1).then(() => {
+        logging.info("Document successfully updated!");
+    })
+        .catch((error) => {
+            logging.error("Error updating document: ", error);
+            alert(error + " Reload side and try again");
+        });
+    BlogDataService.updateLiked(blog.id, blog.liked).then(() => {
+        logging.info("Document successfully updated!");
+    })
+        .catch((error) => {
+            logging.error("Error updating document: ", error);
+            alert(error + " Reload side and try again");
+        });
     return (dispatch : DispatchType) => dispatch(action);
 }
 
@@ -46,7 +91,13 @@ export function publishBlog(blog: IBlogData) {
         type: actionTypes.PUBLISH_BLOG,
         blog,
     }
-    BlogDataService.updatePublished(blog.id);
+    BlogDataService.updatePublished(blog.id).then(() => {
+        logging.info("Document successfully updated!");
+    })
+        .catch((error) => {
+            logging.error("Error updating document: ", error);
+            alert(error + " Reload side and try again");
+        });;
     return (dispatch : DispatchType) => dispatch(action);
 }
 

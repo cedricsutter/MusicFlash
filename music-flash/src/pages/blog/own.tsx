@@ -29,6 +29,12 @@ const Own: React.FC = () =>  {
         shallowEqual
     )
 
+    useEffect(() => {
+        setTimeout(() => {
+            setSortState("loading");
+        }, 1000);
+    });
+
     const [open, setOpen] = React.useState(false);
     const [sortState, setSortState] = React.useState("");
     const [deleteId, setdeletedId] = React.useState<IBlogData | any>();
@@ -72,12 +78,12 @@ const Own: React.FC = () =>  {
                          Newest
                     </Button>
                 </Box>
-                <Box sx={{pt: 1}}>
+                <Box>
                 {blogStore.map((blog: IBlogData) => (
                     <>
                     {auth.currentUser?.email == blog.creatorMail &&
                             <>
-                                <Box sx={{ pb: 1}} key={blog.id}>
+                                <Box sx={{y: 3, mt: 1}} key={blog.id}>
                                     <Card data-index={blog.id} key={blog.id}>
                                         <iframe
                                             src={blog.link}

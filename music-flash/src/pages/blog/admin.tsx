@@ -63,7 +63,7 @@ const Admin: React.FC = () =>  {
                     <>
                     {blog.published == false &&
                             <div key={blog.id}>
-                                <Box sx={{ pb: 1}} key={blog.id}>
+                                <Box sx={{y: 3, mt: 1}} key={blog.id + "11"}>
                                     <Card data-index={blog.id} key={blog.id}>
                                         <iframe
                                             src={blog.link}

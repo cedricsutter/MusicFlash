@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, {useEffect} from "react";
 import IBlogData from "../../interfaces/blogentry";
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -22,20 +22,21 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {likeMinus, likePlus, hottestBlog, newestBlog} from "../../store/actionCreators";
 
-
-
 const Blog: React.FC = () =>  {
-
     const blogStore: IBlogData[] = useSelector(
         (state: BlogState) => state.blog,
         shallowEqual
     )
 
+    useEffect(() => {
+        setTimeout(() => {
+            setSortState("loading");
+        }, 1000);
+    });
     const [open, setOpen] = React.useState(false);
-    const [sortState, setSortState] = React.useState("newest");
+    const [sortState, setSortState] = React.useState("");
     const [likedCount, setLikedCount] = React.useState(true);
     const dispatch: Dispatch<any> = useDispatch();
-
     const likeP = React.useCallback(
         (blog: IBlogData) => dispatch(likePlus(blog)),
         [dispatch, likePlus]
@@ -52,7 +53,6 @@ const Blog: React.FC = () =>  {
         (blog: IBlogData) => dispatch(newestBlog(blog)),
         [dispatch, newestBlog]
     )
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -65,11 +65,9 @@ const Blog: React.FC = () =>  {
                     if (blogLikedDelete > -1) {
                         blog.liked.splice(blogLikedDelete, 1);
                     }
-                    console.log(blog, "minus");
                     likeM(blog);
                 }else{
                     blog.liked.push(liked);
-                    console.log(blog, "plus");
                     likeP(blog);
                 }
             } else {
@@ -81,21 +79,21 @@ const Blog: React.FC = () =>  {
     return (
         <div>
             <>
-                    <Box component="main" sx={{y: 1, border: 1, borderColor: 'primary.main'}}>
-                            <Button startIcon={<LocalFireDepartmentIcon/>} onClick={() => {sortH(blogStore[0]); setSortState("hottest")}}>
-                            Hottest
-                            </Button>
-                            <Button startIcon={<AvTimerIcon/>} onClick={() => {sortN(blogStore[0]); setSortState("newest")}}>
-                            Newest
-                            </Button>
-                    </Box>
-            <Box sx={{pt: 1}}>
+            <Box component="main" sx={{y: 1, border: 1, borderColor: 'primary.main'}}>
+                <Button startIcon={<LocalFireDepartmentIcon/>} onClick={() => {sortH(blogStore[0]); setSortState("hottest")}}>
+                    Hottest
+                </Button>
+                <Button startIcon={<AvTimerIcon/>} onClick={() => {sortN(blogStore[0]); setSortState("newest")}}>
+                    Newest
+                </Button>
+           </Box>
+            <Box>
                 {blogStore.map((blog : IBlogData) => (
                 <>
                     {blog.published &&
                         <>
-                        <Box sx={{y: 3}} key={blog.id + "11"}>
-                            <Card data-index={blog.id} key={blog.id + "12"}>
+                        <Box sx={{y: 3, mt: 1}} key={blog.id}>
+                            <Card data-index={blog.id} key={blog.id}>
                                 <iframe
                                     src={blog.link}
                                     width="100%"

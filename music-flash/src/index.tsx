@@ -15,6 +15,7 @@ const store: Store<BlogState, BlogAction> & {
     dispatch: DispatchType
 } = createStore(reducer, applyMiddleware(thunk))
 
+
 root.render(
 
         <BrowserRouter>
