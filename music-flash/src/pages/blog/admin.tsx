@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import IBlogData from "../../interfaces/blogentry";
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { Dispatch } from "redux";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {BlogState} from "../../interfaces/types";
 import IconButton from "@mui/material/IconButton";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -18,14 +16,39 @@ import Dialog from "@mui/material/Dialog";
 import {removeBlog, publishBlog, newestBlog} from "../../store/actionCreators";
 import CardActions from '@mui/material/CardActions';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import AvTimerIcon from "@mui/icons-material/AvTimer";
 import DescriptionAlerts from "../../components/infobar";
+import IAdmin from "../../interfaces/IAdmin";
+import blogDataService from "../../services/blogDataService";
+import {auth} from "../../config/firebase";
+import Content from "../../components/CardContent";
 
 const Admin: React.FC = () =>  {
     const [open, setOpen] = React.useState(false);
     const [deleteId, setdeletedId] = React.useState<IBlogData | any>();
     const [publish, setPublish] = React.useState<boolean>();
+    const [loading, setLoading] = React.useState(true);
     const dispatch: Dispatch<any> = useDispatch();
+    const [admins, setAdmins] = React.useState<IAdmin>({id: "", admins: []});
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+            getAdmin();
+        }, 1000);
+    });
+
+    const getAdmin = () => {
+        blogDataService.getAllAdmins().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                const admin = (doc.data());
+                const admine: IAdmin = {
+                    id: "admins",
+                    admins: admin.admins
+                };
+                setAdmins(admine);
+            });
+        });
+    }
 
     const blogStore: IBlogData[] = useSelector(
         (state: BlogState) => state.blog
@@ -56,48 +79,28 @@ const Admin: React.FC = () =>  {
 
     return (
             <div>
-                {blogStore.some((element) => element.published === false) ? (
+                {admins.admins.find((element: string | null | undefined) => element == auth.currentUser?.email) ? (
                 <div>
                     <Box sx={{pt: 1}}>
                     {blogStore.map((blog: IBlogData) => (
                     <>
                     {blog.published == false &&
-                            <div key={blog.id}>
+                            <div key={blog.id + "1"}>
                                 <Box sx={{y: 3, mt: 1}} key={blog.id + "11"}>
-                                    <Card data-index={blog.id} key={blog.id}>
-                                        <iframe
-                                            src={blog.link}
-                                            width="100%"
-                                            height="152"
-                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                                            loading="lazy">
-                                        </iframe>
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="div">
-                                                {blog.title}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                {blog.text}
-                                            </Typography>
-                                            <Typography variant="body2">
-                                                Created by: {blog.creatorMail}
-                                            </Typography>
-                                            <Typography variant="body2">
-                                                Created at: {new Date(blog.date).toString().split('G')[0]}
-                                            </Typography>
-                                        </CardContent>
+                                    <Card data-index={blog.id} key={blog.id + "2"}>
+                                        <Content blog={blog}></Content>
                                         <CardActions>
                                             {blog.id &&
                                                 <>
                                                     <>
-                                                    <IconButton key={blog.likedBy + "5"} aria-label="add to favorites">
-                                                        <AddCircleOutlineIcon key={blog.likedBy + "6"} href="#" onClick={() => {setPublish(true), handleClickOpen(blog)}}></AddCircleOutlineIcon>
+                                                    <IconButton key={blog.id + "21"} aria-label="add to favorites">
+                                                        <AddCircleOutlineIcon key={blog.id + "22"} href="#" onClick={() => {setPublish(true), handleClickOpen(blog)}}></AddCircleOutlineIcon>
                                                     </IconButton>
                                                     <span>Publish entry </span>
                                                     </>
                                                     <>
-                                                        <IconButton key={blog.likedBy + "5"} color="error" aria-label="add to favorites">
-                                                            <DeleteForeverRoundedIcon key={blog.likedBy + "6"} href="#" onClick={() => {setPublish(false), handleClickOpen(blog)}}></DeleteForeverRoundedIcon>
+                                                        <IconButton key={blog.id + "31"}  color="error" aria-label="add to favorites">
+                                                            <DeleteForeverRoundedIcon key={blog.id + "32"}  href="#" onClick={() => {setPublish(false), handleClickOpen(blog)}}></DeleteForeverRoundedIcon>
                                                         </IconButton>
                                                     </>
                                                 </>
@@ -156,11 +159,18 @@ const Admin: React.FC = () =>  {
                     </>
                 ))}
                 </Box>
-                </div>
-                ) : (
                     <>
-                        <DescriptionAlerts purpose ="info"></DescriptionAlerts>
+                        {!blogStore.some((element) => element.published === false) &&
+                            <Box sx={{mt: 2}}>
+                                <DescriptionAlerts purpose="info"></DescriptionAlerts>
+                            </Box>
+                        }
                     </>
+                </div>
+                ):(
+                    <Box sx={{mt: 2}}>
+                        <DescriptionAlerts purpose="info"></DescriptionAlerts>
+                    </Box>
                 )}
             </div>
     );

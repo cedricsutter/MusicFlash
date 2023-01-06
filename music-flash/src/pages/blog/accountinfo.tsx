@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import blogDataService from "../../services/blogDataService";
 import IAdmin from "../../interfaces/IAdmin";
-import Button from "@mui/material/Button";
 
 const AccountInfo: React.FC = () => {
     const [admins, setAdmins] = React.useState<IAdmin>({id: "", admins: []});

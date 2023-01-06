@@ -151,7 +151,7 @@ const Create: React.FC = () =>  {
                 <>
                     <Card data-index={data.id} key={data.id}>
                         {!regex.test(data.link) ? (
-                            <Variants></Variants>
+                            <Variants purpose="add"></Variants>
                             ) : (
                     <iframe
                         src= {data.link}

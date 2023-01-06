@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import IBlogData from "../../interfaces/blogentry";
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
 import { auth } from "../../config/firebase";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -16,12 +14,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
-import {hottestBlog, newestBlog, removeBlog} from "../../store/actionCreators";
+import {hottestBlog, newestBlog, removeBlog, oldestBlog} from "../../store/actionCreators";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CardActions from '@mui/material/CardActions';
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
-import AvTimerIcon from "@mui/icons-material/AvTimer";
 import DescriptionAlerts from "../../components/infobar";
+import UpdateIcon from "@mui/icons-material/Update";
+import HistoryIcon from "@mui/icons-material/History";
+import Content from "../../components/CardContent";
 
 const Own: React.FC = () =>  {
     const blogStore: IBlogData[] = useSelector(
@@ -31,12 +31,13 @@ const Own: React.FC = () =>  {
 
     useEffect(() => {
         setTimeout(() => {
-            setSortState("loading");
+            setLoading(false);
         }, 1000);
     });
 
     const [open, setOpen] = React.useState(false);
     const [sortState, setSortState] = React.useState("");
+    const [loading, setLoading] = React.useState(true);
     const [deleteId, setdeletedId] = React.useState<IBlogData | any>();
     const dispatch: Dispatch<any> = useDispatch();
 
@@ -65,57 +66,43 @@ const Own: React.FC = () =>  {
         (blog: IBlogData) => dispatch(newestBlog(blog)),
         [dispatch, newestBlog]
     )
+    const sortO = React.useCallback(
+        (blog: IBlogData) => dispatch(oldestBlog(blog)),
+        [dispatch, oldestBlog]
+    )
 
     return (
             <div>
-                {blogStore.some((element) => element.creatorMail === auth.currentUser?.email) ? (
                 <div>
-                <Box component="main" sx={{ y: 1, border: 1, borderColor: 'primary.main'}}>
-                    <Button startIcon={<LocalFireDepartmentIcon />} onClick={() => {sortH(blogStore[0]); setSortState("Newest")}}>
-                         Hottest
-                    </Button>
-                    <Button startIcon={<AvTimerIcon />} onClick={() => {sortN(blogStore[0]); setSortState("Hottest")}}>
-                         Newest
-                    </Button>
-                </Box>
+                    <Box component="main" sx={{y: 1, border: 1, borderColor: 'primary.main'}}>
+                        <Button startIcon={<LocalFireDepartmentIcon/>} onClick={() => {sortH(blogStore[0]); setSortState("hottest")}}>
+                            Hottest
+                        </Button>
+                        <Button startIcon={<UpdateIcon/>} onClick={() => {sortN(blogStore[0]); setSortState("newest")}}>
+                            Newest
+                        </Button>
+                        <Button startIcon={<HistoryIcon/>} onClick={() => {sortO(blogStore[0]); setSortState("oldest")}}>
+                            Oldest
+                        </Button>
+                    </Box>
                 <Box>
                 {blogStore.map((blog: IBlogData) => (
                     <>
                     {auth.currentUser?.email == blog.creatorMail &&
                             <>
-                                <Box sx={{y: 3, mt: 1}} key={blog.id}>
-                                    <Card data-index={blog.id} key={blog.id}>
-                                        <iframe
-                                            src={blog.link}
-                                            width="100%"
-                                            height="152"
-                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                                            loading="lazy">
-                                        </iframe>
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="div">
-                                                {blog.title}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                {blog.text}
-                                            </Typography>
-                                            <Typography variant="body2">
-                                                Created by: {blog.creatorMail}
-                                            </Typography>
-                                            <Typography variant="body2">
-                                                Created at: {new Date(blog.date).toString().split('G')[0]}
-                                            </Typography>
-                                        </CardContent>
+                                <Box sx={{y: 3, mt: 1}} key={blog.id + "1"}>
+                                    <Card data-index={blog.id} key={blog.id + "2"}>
+                                        <Content blog={blog}></Content>
                                         <CardActions>
                                             {blog.id &&
                                                 <>
                                                     <>
-                                                        <FavoriteIcon key={blog.likedBy + "3"}></FavoriteIcon>
-                                                        <Box key={blog.likedBy + "4"}>{blog.likedBy}</Box>
+                                                        <FavoriteIcon key={blog.id + "21"}></FavoriteIcon>
+                                                        <Box key={blog.id + "22"}>{blog.likedBy}</Box>
                                                     </>
                                                     <>
-                                                        <IconButton key={blog.likedBy + "5"} color="error" aria-label="add to favorites">
-                                                            <DeleteForeverRoundedIcon key={blog.likedBy + "6"} href="#" onClick={() => {handleClickOpen(blog)}}></DeleteForeverRoundedIcon>
+                                                        <IconButton key={blog.id + "23"} color="error" aria-label="add to favorites">
+                                                            <DeleteForeverRoundedIcon key={blog.id + "24"} href="#" onClick={() => {handleClickOpen(blog)}}></DeleteForeverRoundedIcon>
                                                         </IconButton>
                                                     </>
                                                 </>
@@ -156,11 +143,11 @@ const Own: React.FC = () =>  {
                 ))}
                     </Box>
                 </div>
-                ) : (
-                    <>
-                        <DescriptionAlerts purpose ="info"></DescriptionAlerts>
-                    </>
-                )}
+                {!blogStore.some((element) => element.creatorMail === auth.currentUser?.email) &&
+                    <Box sx = {{mt: 2}}>
+                        <DescriptionAlerts purpose="info2"></DescriptionAlerts>
+                    </Box>
+                    }
             </div>
     );
 }

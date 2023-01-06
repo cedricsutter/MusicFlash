@@ -22,6 +22,7 @@ const getBlogs = () => {
                 published: dataNew.published
             };
             blogEntries.push(data);
+            blogEntries.sort((a, b) => b.date - a.date);
         });
     });
 };
@@ -37,11 +38,6 @@ export const reducer = (
     action: BlogAction
         ): BlogState => {
         switch (action.type) {
-            case actionTypes.GET_BLOG:
-                return {
-                    ...state,
-                    blog: state.blog,
-                }
             case actionTypes.ADD_BLOG:
                 const newBlog: IBlogData = action.blog;
                 return {
@@ -88,6 +84,11 @@ export const reducer = (
                 return {
                     ...state,
                     blog: state.blog.sort((a, b) => b.date - a.date),
+                }
+            case actionTypes.SORT_OLDEST:
+                return {
+                    ...state,
+                    blog: state.blog.sort((a, b) => a.date - b.date),
                 }
             case actionTypes.SORT_HOTTEST:
                 return {

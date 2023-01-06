@@ -6,11 +6,18 @@ import routes from './config/routes';
 import Navbar from "./components/navbar";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import {BlogState} from "../src/interfaces/types";
+import IBlogData from "./interfaces/blogentry";
+import {shallowEqual, useSelector} from "react-redux";
 
 
 const Application: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const open = true;
+    const blogStore: IBlogData[] = useSelector(
+        (state: BlogState) => state.blog,
+        shallowEqual
+    )
 
     useEffect(() => {
         auth.onAuthStateChanged(user => {
@@ -22,7 +29,6 @@ const Application: React.FC = () => {
             {
                 logging.info('No user detected');
             }
-
             setLoading(false);
         })
     }, []);

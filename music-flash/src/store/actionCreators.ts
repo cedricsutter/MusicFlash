@@ -4,15 +4,6 @@ import {BlogAction, DispatchType} from "../interfaces/types";
 import BlogDataService from "../services/blogDataService";
 import logging from "../config/logging";
 
-
-export function getBlog(blog: IBlogData) {
-    const action: BlogAction = {
-        type: actionTypes.GET_BLOG,
-        blog,
-    }
-    return (dispatch : DispatchType) => dispatch(action);
-}
-
 export function addBlog(blog: IBlogData) {
     const action: BlogAction = {
         type: actionTypes.ADD_BLOG,
@@ -112,6 +103,14 @@ export function hottestBlog(blog: IBlogData) {
 export function newestBlog(blog: IBlogData) {
     const action: BlogAction = {
         type: actionTypes.SORT_NEWEST,
+        blog,
+    }
+    return (dispatch : DispatchType) => dispatch(action);
+}
+
+export function oldestBlog(blog: IBlogData) {
+    const action: BlogAction = {
+        type: actionTypes.SORT_OLDEST,
         blog,
     }
     return (dispatch : DispatchType) => dispatch(action);
